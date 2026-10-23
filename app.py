@@ -5,7 +5,7 @@ from pathlib import Path
 import streamlit as st
 from reroute.agent import investigate, completion, tool_schema
 from reroute.engine import Store, WorkflowError
-from reroute.config import api_settings, database_path, set_hosted_secrets
+from reroute.config import api_settings, database_path, set_hosted_secrets, build_revision
 from reroute.fixtures import SCENARIOS, fixture, hhmm
 
 st.set_page_config(page_title='ReRoute | The rescue desk',page_icon='🌿',layout='wide')
@@ -107,6 +107,9 @@ with st.sidebar:
         except Exception:
             st.error('Provider response could not be read. Check the endpoint and model.')
     st.caption('Offline mode is a rule-based tool loop. LLM mode chooses tools; Python enforces every safety check.')
+    with st.expander('Build and deployment'):
+        st.code(build_revision(),language=None)
+        st.caption('Compare this checkout revision with the GitHub commit before the submission freeze.')
     st.divider()
     st.markdown('**AgentOps 2026 · 24 October**')
     st.caption('Transport / Retail and Supply\n\nSandbox only. No live maps, messaging, food-safety certification or delivery integration.')

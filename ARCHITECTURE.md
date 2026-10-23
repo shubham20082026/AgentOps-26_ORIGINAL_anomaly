@@ -21,7 +21,7 @@ Streamlit dispatcher dashboard
 
 The model receives exactly six tools: read case, inspect driver, inspect recipient, validate pair, propose and escalate. It cannot approve, reserve, respond to confirmations or modify evidence. It must read and inspect before validating, and validate successfully before proposing. Declaring no feasible option requires checking all resource pairs. Tool data is treated as data. Inputs are restricted to known resource IDs and string arguments; extra fields are rejected.
 
-The deterministic controller inspects all resources, checks all pairs and proposes the earliest feasible arrival. Both controllers use the same tool implementation. The LLM controller allows 18 rounds, at most 24 tool calls, a 12-second request timeout and a 60-second elapsed budget checked between requests. A single in-flight request can extend the total beyond 60 seconds by up to its timeout; this is not a hard process deadline.
+The deterministic controller inspects all resources, checks all pairs and proposes the earliest feasible arrival. Both controllers use the same tool implementation. The LLM controller allows 18 rounds, at most 24 tool calls, a 30-second request timeout and a 180-second elapsed budget checked between requests. A single in-flight request can extend the total beyond 180 seconds by up to its timeout; this is not a hard process deadline.
 
 ## Feasibility rules
 

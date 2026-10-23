@@ -1,3 +1,17 @@
+# Submission evidence update — 23 October 2026
+
+Full suite: **54 passed in 33.55 seconds**. Two additional checks cover failure-aware latency summaries and safe checkout revision reporting. Historical 52-test results below remain valid for their earlier version.
+
+Five trials per mode across six scenarios produced 60 attempts. The baseline was correct in 30/30. The LLM was correct in 1/30, with 29 failed investigations. Baseline median/range: 0.063 / 0.062–0.125 seconds. LLM all-attempt median/range: 0.438 / 0.375–17.172 seconds; the latter includes rapid failures and must not be presented as recovery latency. The one successful LLM attempt took 5.125 seconds. Per-scenario results and every trial are in evaluation_report.json.
+
+A separate post-run No-capacity diagnostic returned HTTP 429 after rejected tool calls. Individual causes were not captured for the historical 29 failures. Future evaluations now capture sanitized failure details and avoid counting internal escalation events as model tool calls.
+
+The historical 16.75-second Happy-path and 51.281-second escalated run are not part of this repeated distribution. There is no established LLM superiority or consistent under-30-second guarantee.
+
+The live hosted app completed a new isolated deterministic Happy-path case (RR-212716C1, v2): approval, reservation and both simulated accepts resulted in Confirmed / 24 boxes. This verifies the current site's offline workflow; it does not verify the new commit is deployed. See RELEASE_CHECKLIST.md for pending GitHub sign-in/push and exact deployed-SHA checks.
+
+---
+
 # Cloud and evaluator update — 23 October 2026
 
 - Full suite: 52 passed in 7.37 seconds, including the full Streamlit approval,

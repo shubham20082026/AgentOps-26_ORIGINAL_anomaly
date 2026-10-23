@@ -84,3 +84,15 @@ def api_settings():
         'url': validate_endpoint(values.get('REROUTE_API_URL') or saved.get('url') or 'https://api.openai.com/v1/chat/completions'),
     }
 
+
+
+def build_revision():
+    """Read the deployed checkout revision; never infer it from a build label."""
+    import subprocess
+    try:
+        result = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                                capture_output=True, text=True, timeout=2, check=True)
+        value = result.stdout.strip()
+        return value if len(value) == 40 and all(c in '0123456789abcdef' for c in value) else 'unavailable'
+    except (OSError, subprocess.SubprocessError):
+        return 'unavailable'

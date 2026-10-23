@@ -27,18 +27,19 @@ def compare(repeats=1, include_llm=False, scenario='Happy path', transport=None)
                 except WorkflowError: failure=True
                 elapsed=time.monotonic()-start
                 case=store.get(cid); events=store.audit(cid)
+                failures=[json.loads(e['detail']) for e in events if e['tool']=='agent_failed']
                 expected='PROPOSED' if scenario=='Happy path' else 'ESCALATED'
                 rows.append(dict(mode=mode,trial=trial+1,scenario=scenario,seconds=round(elapsed,4),
                     status=case['status'],correct=not failure and case['status']==expected,
-                    failed=failure,under_30_seconds=elapsed<30,
-                    tool_calls=sum(e['tool'] in TOOL_NAMES for e in events),
+                    failed=failure,failure_details=failures[-1] if failures else None,under_30_seconds=elapsed<30,
+                    tool_calls=sum(e['tool'] in TOOL_NAMES and 'arguments' in json.loads(e['detail']) for e in events),
                     validations=sum(e['tool']=='validate_constraints' for e in events),
                     trace=[dict(tool=e['tool'],detail=json.loads(e['detail'])) for e in events if e['tool'] in TOOL_NAMES]))
     summary=[]
     for mode in dict.fromkeys(r['mode'] for r in rows):
         group=[r for r in rows if r['mode']==mode]
         summary.append(dict(mode=mode,runs=len(group),median_seconds=round(statistics.median(r['seconds'] for r in group),4),
-            slowest_seconds=max(r['seconds'] for r in group),correct=sum(r['correct'] for r in group),
+            fastest_seconds=min(r['seconds'] for r in group),slowest_seconds=max(r['seconds'] for r in group),correct=sum(r['correct'] for r in group),
             failures=sum(r['failed'] for r in group),under_30_seconds=sum(r['under_30_seconds'] and not r['failed'] for r in group),
             mean_tool_calls=statistics.mean(r['tool_calls'] for r in group)))
     return dict(summary=summary,runs=rows,note='Synthetic inputs, isolated databases; proposal time excludes human approval. No LLM superiority is assumed.')

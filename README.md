@@ -17,37 +17,64 @@ reservation and both-party confirmation workflow is implemented. Driver and
 recipient replies, travel times and availability are simulated. Real maps,
 messaging, authentication and split deliveries are outside the current scope.
 
-### Verification at a glance
+### Status and evidence
 
-- 52 tests, including interface checks, passed locally on 23 October 2026.
-- A live Gemini tool-calling test and a complete LLM investigation succeeded.
-- That investigation correctly escalated when an existing confirmed booking left
-  insufficient shared capacity. Model availability and latency can vary.
-- Full interface tests now pass; see the cloud update in VERIFICATION.md.
+The complete sandbox workflow, fresh-demo controls, API connection check, evaluation lab, version-specific approval and both-party verification are implemented. The full suite now has **54 passing tests**, including two added submission checks. The working-app deck reports the earlier 52-test suite; its single-trial results are historical observations. Current validation is in [VERIFICATION.md](VERIFICATION.md).
 
-GitHub Actions runs the full test suite without provider credentials; it does not call a live model.
+The app still uses synthetic travel, resources, handling evidence and replies. There is no live delivery integration, authentication, donation splitting or guaranteed durable cloud database. LLM reliability is limited by provider/model behavior: see the repeated results below. GitHub Actions runs the full suite without live credentials.
 
-## Cloud deployment and evaluator improvements
+## Repeated evaluation — 23 October 2026
 
-See [CLOUD_SETUP.md](CLOUD_SETUP.md) for Streamlit Secrets and deployment steps.
-Windows-encrypted laptop credentials are not transferred to the hosted app.
+Five trials per mode across six scenarios: **60 attempts** using identical synthetic inputs and isolated databases. Trials ran serially without provider retry or deliberate quota pacing. Approval and confirmation time are excluded. Source, model, code hashes, every run and traces are in [evaluation_report.json](evaluation_report.json).
 
-- Start fresh demo isolates capacity without deleting previous cases.
-- Test API connection checks provider tool calling before a full investigation.
-- Escalations show their recorded cause and investigation evidence.
-- Evaluation lab compares the exhaustive rule-based baseline and optional live
-  LLM on identical inputs. It measures correctness, latency, tool calls, failures
-  and the 30-second target, with downloadable traces.
-- Stress checks cover concurrent cancellations, repeated bookings, delayed
-  confirmations, changed capacity and adaptive replanning.
+| Scenario | Mode | Correct | Failed | Median attempt (s) | Range (s) |
+|---|---|---:|---:|---:|---:|
+| Happy path | deterministic | 5/5 | 0 | 0.078 | 0.062–0.078 |
+| Happy path | llm | 1/5 | 4 | 0.438 | 0.406–5.125 |
+| No capacity | deterministic | 5/5 | 0 | 0.063 | 0.062–0.093 |
+| No capacity | llm | 0/5 | 5 | 0.469 | 0.406–17.172 |
+| Late arrival | deterministic | 5/5 | 0 | 0.079 | 0.063–0.125 |
+| Late arrival | llm | 0/5 | 5 | 0.469 | 0.406–0.515 |
+| Missing handling | deterministic | 5/5 | 0 | 0.063 | 0.062–0.125 |
+| Missing handling | llm | 0/5 | 5 | 0.422 | 0.406–0.453 |
+| Closed recipient | deterministic | 5/5 | 0 | 0.063 | 0.062–0.094 |
+| Closed recipient | llm | 0/5 | 5 | 0.437 | 0.391–0.438 |
+| Driver unavailable | deterministic | 5/5 | 0 | 0.079 | 0.062–0.094 |
+| Driver unavailable | llm | 0/5 | 5 | 0.453 | 0.375–0.5 |
 
-The full suite now passes: **52 tests**, including Streamlit UI checks.
-One measured Happy-path trial: baseline **0.062 seconds / 13 tool calls**, LLM
-**16.75 seconds / 8 calls**, both correct. All five stress checks passed.
-This single trial does not establish consistent latency or LLM superiority.
-See `evaluation_report.json` for evidence.
+**Baseline: 30/30 correct. LLM: 1/30 correct; 29 investigations failed.** The LLM's 0.438-second overall median includes rapid failures, so it is not a recovery-latency result. The only successful LLM attempt took 5.125 seconds; one success is not enough for a reliable successful-latency distribution. Failed runs are never counted as successful escalations or meeting the 30-second target.
 
-Cloud files can be replaced on rebuild; operational durability needs external storage.
+A separate follow-up diagnostic returned HTTP 429 (quota/rate limit) after rejected model calls. The original repeated evaluator did not save each failed run's cause, so we cannot attribute every failure to quota. The evaluator now captures safe failure details for future runs. Retry only after quota and model behavior are checked; offline mode remains the reliable demo baseline.
+
+The deck's historical **16.75-second** Happy-path result and earlier **51.281-second** escalation are separate observations, not members of this repeated sample. Different outcomes, evidence and provider conditions prevent interpreting their difference as a measured optimization gain. No consistent sub-30-second LLM target or superiority is claimed.
+
+To reproduce locally (uses provider quota when enabled):
+
+```powershell
+.\.venv\Scripts\python.exe evaluate.py --repeats 5 --include-llm --output evaluation_report.json
+```
+
+Omit `--include-llm` for the offline baseline. Reports checkpoint after each scenario/trial; comparison of live models requires working credentials and available quota.
+
+## Business value
+
+See [BUSINESS_VALUE.md](BUSINESS_VALUE.md) for the slide-aligned **measured / assumed / modeled** split. With assumed 15-minute manual coordination, 2-minute assisted coordination and five weekly cancellations, potential time difference is **65 minutes/week**. The **120 boxes/week** represents donation volume kept in consideration, not food delivered or saved. No financial ROI or field benefit is measured.
+
+## Reusability
+
+[REUSABILITY.md](REUSABILITY.md) maps fixtures, tools, deterministic checks, approver roles, reservation adapters and audit storage to their implementation points. Hospitality, supply and IT examples are future adaptations requiring new domain validation.
+
+## Responsible AI and governance
+
+The model investigates and proposes; it cannot approve, reserve or confirm. Deterministic checks enforce feasibility, approvals bind an exact version and fingerprint, failed holds release capacity, and the audit records evidence and failure reasons. Provider errors stop for manual review; fallback is an explicit operator choice. See [ARCHITECTURE.md](ARCHITECTURE.md).
+
+**Roles gap:** dispatcher names are attribution, not authenticated identity or authorization. The hosted sandbox has no tenant isolation or production RBAC; its database owner can edit the audit. Before operational use, add authenticated dispatcher/reviewer/admin roles, server-side permission checks, separation of approval authority, protected durable audit storage, authenticated replies, retention controls and access-control tests. Do not submit personal recipient data to this public demo.
+
+## Deployment and source version
+
+[CLOUD_SETUP.md](CLOUD_SETUP.md) covers hosted Secrets, fresh demos and limitations. The new **Build and deployment** sidebar shows the checkout commit. Before the freeze, compare that full hash with GitHub's final pushed commit. A healthy page or matching button labels alone does not prove commit parity. [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) records what has and has not been verified.
+
+Windows-encrypted credentials stay on your laptop; configure the hosted API in Streamlit Secrets. `.private/`, `.env*`, local databases and environments are gitignored. See [SECURITY_CHECK.md](SECURITY_CHECK.md) for the history-scan scope.
 
 ## Start here (Windows, beginner friendly)
 
@@ -128,7 +155,7 @@ API implementation reference: [official OpenAI function-calling documentation](h
 The default database is always `<ReRoute project folder>/data/reroute.db`, even
 when launched from another working directory. Relative `REROUTE_DB` paths are
 also resolved against the project folder; absolute paths are used as specified.
-The sidebar shows the active database path. Stopping and restarting the server
+The sidebar explains local storage limits; the Build and deployment section reports the checkout revision. Stopping and restarting the server
 reopens this file without resetting cases, approvals, bookings or audit history.
 An in-memory `REROUTE_DB` setting is rejected. Existing data is not migrated or
 overwritten. If an earlier relative override created a file elsewhere, use its
@@ -156,7 +183,4 @@ Fixture times are frozen at 14:00; they are not today's current time. Reservatio
 
 This is a local single-dispatcher sandbox. Dispatcher names are attribution, not authenticated identity. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, user authentication, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
 
-Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` and the existing `ReRoute_Beginner_Kit.zip`. The kit's feasibility concepts were retained; persistence and workflow safeguards were replaced. The deck's planned metrics are measured in VERIFICATION.md where verified; no claim of guaranteed hackathon results.
-
-
-
+Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` 
