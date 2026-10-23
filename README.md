@@ -156,7 +156,4 @@ Fixture times are frozen at 14:00; they are not today's current time. Reservatio
 
 This is a local single-dispatcher sandbox. Dispatcher names are attribution, not authenticated identity. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, user authentication, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
 
-Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` and the existing `ReRoute_Beginner_Kit.zip`. The kit's feasibility concepts were retained; persistence and workflow safeguards were replaced. The deck's planned metrics are measured in VERIFICATION.md where verified; no claim of guaranteed hackathon results.
-
-
-
+Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` 
