@@ -13,4 +13,5 @@ jobs:
           cache: pip
       - run: python -m pip install -r requirements.txt
       - name: Test workflow, encrypted configuration and API error handling
-        run: python -m pytest tests/test_workflow.py tests/test_config.py tests/test_api_errors.py -q
+        run: python -m pytest -q
+

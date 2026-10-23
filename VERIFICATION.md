@@ -1,3 +1,18 @@
+# Cloud and evaluator update — 23 October 2026
+
+- Full suite: 52 passed in 7.37 seconds, including the full Streamlit approval,
+  reservation and both-confirmations workflow, fresh demos and evaluation UI.
+- Previous interface-test stalls were traced to blocked sandbox loopback sockets;
+  granting network access resolved the harness issue.
+- Live matched Happy-path trial: baseline 0.062 seconds, 13 calls; LLM 16.75
+  seconds, 8 calls. Both proposed correctly. One trial is not evidence of a
+  consistent latency guarantee or comparative superiority.
+- All five concurrency/recovery checks passed; see evaluation_report.json.
+- Streamlit Secrets now supply hosted credentials; Windows DPAPI remains local.
+- Hosted deployment is pending pushing these changes and configuring its Secrets.
+- SQLite remains local-file storage; cloud rebuild durability is not guaranteed.
+
+Historical notes below predate this update.
 # Verification — updated 23 October 2026 (Asia/Kolkata)
 
 ## Latest verification — 23 October
@@ -73,3 +88,4 @@ The Streamlit server was started on localhost. The Happy path was manually drive
 - No authentication, distributed deployment, canonical live resource registry or food-safety certification. See ARCHITECTURE.md and README.md.
 
 The original proposal's goals of a sub-30-second sandbox proposal, rejecting five invalid fixture categories and zero duplicate bookings across ten replays were met in the deterministic local rehearsal. LLM latency and real-world benefits remain unverified.
+

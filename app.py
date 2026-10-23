@@ -1,10 +1,11 @@
 import json
+import uuid
 import os
 from pathlib import Path
 import streamlit as st
-from reroute.agent import investigate
+from reroute.agent import investigate, completion, tool_schema
 from reroute.engine import Store, WorkflowError
-from reroute.config import api_settings, database_path
+from reroute.config import api_settings, database_path, set_hosted_secrets
 from reroute.fixtures import SCENARIOS, fixture, hhmm
 
 st.set_page_config(page_title='ReRoute | The rescue desk',page_icon='🌿',layout='wide')
@@ -51,7 +52,11 @@ hr {border-color:#d3d4bd!important}
 @media(max-width:900px) {.hero-art {width:150px}.hero h1 {font-size:2.8rem}.hero p {font-size:14px}}
 @media(max-width:600px) {.hero-art {display:none}.hero h1 {font-size:2.8rem}[data-testid="stMainBlockContainer"] {padding:2rem 1rem}}
 </style>''',unsafe_allow_html=True)
-store=Store(database_path())
+try:
+    set_hosted_secrets(dict(st.secrets))
+except FileNotFoundError:
+    set_hosted_secrets({})
+store=Store(st.session_state.get('demo_db', database_path()))
 
 def action(fn):
     try:
@@ -63,6 +68,11 @@ with st.sidebar:
     st.markdown('<div class="desk-label">THE FOOD RESCUE DESK</div><div class="desk-brand">ReRoute<span>↗</span></div><div class="desk-note">Good food deserves a second chance.</div>',unsafe_allow_html=True)
     st.caption('ORIGINAL_anomaly · Shubham Parmar')
     st.divider()
+    if st.button('Start fresh demo', help='Create an isolated demo database. Previous records are preserved.'):
+        st.session_state.demo_db=str(database_path().parent/('demo-'+uuid.uuid4().hex+'.db'))
+        st.session_state.pop('cid',None)
+        st.rerun()
+    st.caption('Fresh demos preserve previous records and start with unused capacity.')
     scenario=st.selectbox('Synthetic scenario',list(SCENARIOS))
     st.caption(SCENARIOS[scenario])
     if st.button('Ingest cancellation',type='primary',width='stretch'):
@@ -75,11 +85,27 @@ with st.sidebar:
     mode=st.radio('Investigation mode',['Deterministic · offline','LLM · configured API'])
     try:
         settings=api_settings()
-        st.caption('API configured' if settings['key'] and settings['model'] else 'API setup needed: run configure-api.bat locally.')
+        api_ready=bool(settings['key'] and settings['model'])
+        st.caption('API configured' if api_ready else 'API setup needed. Offline mode works immediately.')
         del settings
     except Exception:
-        st.warning('API settings could not be loaded. Run configure-api.bat again under this Windows account.')
-    st.caption(f'Database: {store.path} · saved across server restarts')
+        api_ready=False
+        st.warning('API settings could not be loaded. Check hosted Secrets or local API setup.')
+    with st.expander('Hosted API setup'):
+        st.write('In Streamlit: Manage app → Settings → Secrets. Add REROUTE_API_KEY, REROUTE_MODEL and REROUTE_API_URL. See CLOUD_SETUP.md for the template. Local Windows credentials are not transferred to the hosted app.')
+    st.caption('SQLite saves this demo on the current server. Cloud rebuilds can replace local files; use durable storage for production.')
+    if st.button('Test API connection',disabled=not api_ready):
+        try:
+            with st.spinner('Checking provider tool calling…'):
+                result=completion([{'role':'user','content':'Call connection_check.'}],[tool_schema('connection_check','Verify tool calling.',[])])
+            if any(call.get('function',{}).get('name')=='connection_check' for call in result.get('tool_calls',[])):
+                st.success('API connected; tool calling works.')
+            else:
+                st.warning('Provider responded without the required tool call. Check model support.')
+        except WorkflowError as exc:
+            st.error(str(exc))
+        except Exception:
+            st.error('Provider response could not be read. Check the endpoint and model.')
     st.caption('Offline mode is a rule-based tool loop. LLM mode chooses tools; Python enforces every safety check.')
     st.divider()
     st.markdown('**AgentOps 2026 · 24 October**')
@@ -102,6 +128,8 @@ st.markdown('''<div class="hero"><div class="hero-copy"><span class="eyebrow">A 
 <path d="m122 147 15-1m-5-5 6 5-5 6" stroke="#a65336" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="m211 126 3-8 3 8 8 3-8 3-3 8-3-8-8-3Z" fill="#b4ba95"/>
 </svg><div class="art-note">a second chance, carefully carried</div></div></div>''',unsafe_allow_html=True)
+from reroute.evaluation_ui import render_evaluation
+render_evaluation(api_ready)
 if not rows:
     st.info('Start in the sidebar: ingest the Happy path cancellation. The complete demo needs no API key.')
     st.stop()
@@ -124,10 +152,24 @@ with ops:
         st.subheader('01 / Find another way')
         st.write(data['cancellation'])
         st.caption(f"{data['donor']} · {data['handling']} · Fixed pickup {hhmm(data['pickup'])}")
-        if st.button('Run recovery investigation',type='primary',disabled=c['status'] not in ('OPEN','PROPOSED','ESCALATED')):
+        if st.button('Run recovery investigation',type='primary',disabled=c['status'] not in ('OPEN','PROPOSED','ESCALATED') or (mode.startswith('LLM') and not api_ready)):
             with st.spinner('Inspecting resources and checking replacement pairs…'):
                 action(lambda: investigate(store,cid,'llm' if mode.startswith('LLM') else 'deterministic'))
-        if c['status']=='ESCALATED': st.warning('Dispatcher intervention required. Read the audit, change evidence or retry investigation. No confirmed rescue is claimed.')
+        case_events=store.audit(cid)
+        starts=[i for i,e in enumerate(case_events) if e['tool']=='agent_started']
+        latest=case_events[starts[-1]:] if starts else []
+        finished=[json.loads(e['detail']) for e in latest if e['tool']=='agent_completed']
+        if finished:
+            st.caption(f"Last investigation: {finished[-1]['mode']} · {finished[-1]['elapsed_seconds']:.2f} seconds · approval excluded")
+        if c['status']=='ESCALATED':
+            reasons=[json.loads(e['detail']).get('reason') for e in reversed(case_events) if e['tool'] in ('agent_failed','escalate','release_and_escalate')]
+            st.warning(next((r for r in reasons if r), 'Investigation stopped. Review evidence and retry.'))
+            st.info('If this is a repeated demo, earlier bookings may consume capacity. Choose Start fresh demo for an isolated run.')
+        with st.expander('Investigation decisions and evidence'):
+            for e in latest:
+                if e['tool'] in ('read_case','inspect_driver','inspect_recipient','validate_pair','propose','escalate','tool_rejected'):
+                    st.write(e['tool'].replace('_',' ').title())
+                    st.json(json.loads(e['detail']))
         st.subheader('02 / Give the plan a human check')
         if plan:
             st.markdown(f"### {plan['driver']} → Campus pickup → {plan['recipient']}")

@@ -13,9 +13,9 @@ class APIConnectionError(WorkflowError):
 def api_http_message(status):
     return {
         400: 'The API rejected the request. Check the model and its tool-calling support.',
-        401: 'The API rejected the key. Run configure-api.bat to replace it.',
+        401: 'The API rejected the key. Update Streamlit Secrets on the hosted app, or run configure-api.bat locally.',
         403: 'API access was denied. Check key permissions and model access with your provider.',
-        404: 'The API model or endpoint was not found or is no longer available. Run configure-api.bat with a supported model.',
+        404: 'The API model or endpoint was not found or is no longer available. Configure a supported model in Streamlit Secrets or local setup.',
         429: 'The API quota or rate limit was reached. Check provider usage and billing before retrying.',
         503: 'The API model is temporarily unavailable or busy. Wait briefly and retry the investigation.',
     }.get(status, 'The API returned a server or connection error. Check provider status and retry.')
@@ -117,8 +117,8 @@ class Investigator:
                     if not isinstance(args,dict) or set(args)!=set(schema['required']) or any(not isinstance(v,str) for v in args.values()):
                         raise WorkflowError('Invalid tool arguments')
                     out=self.call(call['function']['name'],args)
-                except (ValueError,KeyError,StopIteration) as exc:
-                    out={'error':str(exc)}
+                except (ValueError,KeyError,StopIteration):
+                    out={'error':'Tool rejected: check tool name, arguments and required evidence.'}
                     self.store.record(self.cid,'tool_rejected',out)
                 messages.append({'role':'tool','tool_call_id':call['id'],'content':json.dumps(out)})
                 if self.finished: return out
@@ -127,7 +127,7 @@ class Investigator:
 def completion(messages,tools):
     settings=api_settings()
     key,model=settings['key'],settings['model']
-    if not key or not model: raise WorkflowError('API key and REROUTE_MODEL are required for LLM mode')
+    if not key or not model: raise APIConnectionError('LLM setup is incomplete. Configure REROUTE_API_KEY, REROUTE_MODEL and REROUTE_API_URL in Streamlit Secrets or local setup. Offline mode remains available.')
     url=settings['url']
     payload=json.dumps({'model':model,'messages':messages,'tools':tools,'tool_choice':'required','parallel_tool_calls':False}).encode()
     request=urllib.request.Request(url,data=payload,headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'})

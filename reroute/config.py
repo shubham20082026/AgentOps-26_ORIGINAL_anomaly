@@ -7,10 +7,17 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
+_hosted_secrets = {}
+
+def set_hosted_secrets(values):
+    """Accept hosted secrets in memory only; environment values take priority."""
+    global _hosted_secrets
+    _hosted_secrets = {k: str(v) for k,v in values.items() if k.startswith('REROUTE_') or k == 'OPENAI_API_KEY'}
+
 
 
 def database_path():
-    value = os.environ.get('REROUTE_DB', 'data/reroute.db').strip()
+    value = os.environ.get('REROUTE_DB', _hosted_secrets.get('REROUTE_DB', 'data/reroute.db')).strip()
     if not value or value == ':memory:':
         raise ValueError('REROUTE_DB must name a persistent database file')
     path = Path(value).expanduser()
@@ -63,7 +70,9 @@ def save_api(key, model, url):
 
 
 def api_settings():
-    key = os.environ.get('REROUTE_API_KEY') or os.environ.get('OPENAI_API_KEY')
+    values = dict(_hosted_secrets)
+    values.update({k:v for k,v in os.environ.items() if k.startswith('REROUTE_') or k=='OPENAI_API_KEY'})
+    key = values.get('REROUTE_API_KEY') or values.get('OPENAI_API_KEY')
     # A complete environment configuration does not depend on a local Windows account.
     saved = {}
     path = ROOT / '.private' / 'api.dpapi'
@@ -71,6 +80,7 @@ def api_settings():
         saved = json.loads(protect(path.read_bytes(), decrypt=True))
     return {
         'key': key or saved.get('key'),
-        'model': os.environ.get('REROUTE_MODEL') or saved.get('model'),
-        'url': validate_endpoint(os.environ.get('REROUTE_API_URL') or saved.get('url') or 'https://api.openai.com/v1/chat/completions'),
+        'model': values.get('REROUTE_MODEL') or saved.get('model'),
+        'url': validate_endpoint(values.get('REROUTE_API_URL') or saved.get('url') or 'https://api.openai.com/v1/chat/completions'),
     }
+

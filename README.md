@@ -11,15 +11,35 @@ messaging, authentication and split deliveries are outside the current scope.
 
 ### Verification at a glance
 
-- 40 backend/configuration tests passed locally on 23 October 2026.
+- 52 tests, including interface checks, passed locally on 23 October 2026.
 - A live Gemini tool-calling test and a complete LLM investigation succeeded.
 - That investigation correctly escalated when an existing confirmed booking left
   insufficient shared capacity. Model availability and latency can vary.
-- The latest Streamlit interface test attempt stalled; earlier UI checks are
-  recorded separately in `VERIFICATION.md`.
+- Full interface tests now pass; see the cloud update in VERIFICATION.md.
 
-GitHub Actions runs the backend/configuration tests without provider credentials;
-it does not call a live model or run the Streamlit interface tests.
+GitHub Actions runs the full test suite without provider credentials; it does not call a live model.
+
+## Cloud deployment and evaluator improvements
+
+See [CLOUD_SETUP.md](CLOUD_SETUP.md) for Streamlit Secrets and deployment steps.
+Windows-encrypted laptop credentials are not transferred to the hosted app.
+
+- Start fresh demo isolates capacity without deleting previous cases.
+- Test API connection checks provider tool calling before a full investigation.
+- Escalations show their recorded cause and investigation evidence.
+- Evaluation lab compares the exhaustive rule-based baseline and optional live
+  LLM on identical inputs. It measures correctness, latency, tool calls, failures
+  and the 30-second target, with downloadable traces.
+- Stress checks cover concurrent cancellations, repeated bookings, delayed
+  confirmations, changed capacity and adaptive replanning.
+
+The full suite now passes: **52 tests**, including Streamlit UI checks.
+One measured Happy-path trial: baseline **0.062 seconds / 13 tool calls**, LLM
+**16.75 seconds / 8 calls**, both correct. All five stress checks passed.
+This single trial does not establish consistent latency or LLM superiority.
+See `evaluation_report.json` for evidence.
+
+Cloud files can be replaced on rebuild; operational durability needs external storage.
 
 ## Start here (Windows, beginner friendly)
 
@@ -129,4 +149,6 @@ Fixture times are frozen at 14:00; they are not today's current time. Reservatio
 This is a local single-dispatcher sandbox. Dispatcher names are attribution, not authenticated identity. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, user authentication, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
 
 Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` and the existing `ReRoute_Beginner_Kit.zip`. The kit's feasibility concepts were retained; persistence and workflow safeguards were replaced. The deck's planned metrics are measured in VERIFICATION.md where verified; no claim of guaranteed hackathon results.
+
+
 

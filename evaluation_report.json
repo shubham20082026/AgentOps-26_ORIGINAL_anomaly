@@ -1,0 +1,478 @@
+{
+  "summary": [
+    {
+      "mode": "deterministic",
+      "runs": 1,
+      "median_seconds": 0.062,
+      "slowest_seconds": 0.062,
+      "correct": 1,
+      "failures": 0,
+      "under_30_seconds": 1,
+      "mean_tool_calls": 13
+    },
+    {
+      "mode": "llm",
+      "runs": 1,
+      "median_seconds": 16.75,
+      "slowest_seconds": 16.75,
+      "correct": 1,
+      "failures": 0,
+      "under_30_seconds": 1,
+      "mean_tool_calls": 8
+    }
+  ],
+  "runs": [
+    {
+      "mode": "deterministic",
+      "trial": 1,
+      "scenario": "Happy path",
+      "seconds": 0.062,
+      "status": "PROPOSED",
+      "correct": true,
+      "failed": false,
+      "under_30_seconds": true,
+      "tool_calls": 13,
+      "validations": 7,
+      "trace": [
+        {
+          "tool": "read_case",
+          "detail": {
+            "arguments": {},
+            "result": {
+              "boxes": 24,
+              "cancellation": "Original volunteer cancelled at 14:00. Recover all 24 packed boxes.",
+              "deadline": 870,
+              "drivers": [
+                "D1",
+                "D2",
+                "D3"
+              ],
+              "handling": "sealed ambient meals",
+              "pickup": 840,
+              "recipients": [
+                "A",
+                "B"
+              ]
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_recipient",
+          "detail": {
+            "arguments": {
+              "recipient": "A"
+            },
+            "result": {
+              "accepting": true,
+              "capacity": 8,
+              "closes": 900,
+              "handling": true,
+              "id": "A",
+              "name": "Recipient A",
+              "opens": 840
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_recipient",
+          "detail": {
+            "arguments": {
+              "recipient": "B"
+            },
+            "result": {
+              "accepting": true,
+              "capacity": 30,
+              "closes": 900,
+              "handling": true,
+              "id": "B",
+              "name": "Recipient B",
+              "opens": 840
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D1"
+            },
+            "result": {
+              "available": false,
+              "capacity": 30,
+              "handling": true,
+              "id": "D1",
+              "name": "Driver 1",
+              "travel": 12
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D2"
+            },
+            "result": {
+              "available": true,
+              "capacity": 30,
+              "handling": true,
+              "id": "D2",
+              "name": "Driver 2",
+              "travel": 22
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D3"
+            },
+            "result": {
+              "available": true,
+              "capacity": 10,
+              "handling": true,
+              "id": "D3",
+              "name": "Driver 3",
+              "travel": 8
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D1",
+              "recipient": "A"
+            },
+            "result": {
+              "arrival": 852,
+              "boxes": 24,
+              "driver": "D1",
+              "reasons": [
+                "Driver unavailable",
+                "Insufficient recipient capacity"
+              ],
+              "recipient": "A",
+              "valid": false
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D2",
+              "recipient": "A"
+            },
+            "result": {
+              "arrival": 862,
+              "boxes": 24,
+              "driver": "D2",
+              "reasons": [
+                "Insufficient recipient capacity"
+              ],
+              "recipient": "A",
+              "valid": false
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D3",
+              "recipient": "A"
+            },
+            "result": {
+              "arrival": 848,
+              "boxes": 24,
+              "driver": "D3",
+              "reasons": [
+                "Insufficient driver capacity",
+                "Insufficient recipient capacity"
+              ],
+              "recipient": "A",
+              "valid": false
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D1",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 852,
+              "boxes": 24,
+              "driver": "D1",
+              "reasons": [
+                "Driver unavailable"
+              ],
+              "recipient": "B",
+              "valid": false
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D2",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 862,
+              "boxes": 24,
+              "driver": "D2",
+              "reasons": [],
+              "recipient": "B",
+              "valid": true
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D3",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 848,
+              "boxes": 24,
+              "driver": "D3",
+              "reasons": [
+                "Insufficient driver capacity"
+              ],
+              "recipient": "B",
+              "valid": false
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "propose",
+          "detail": {
+            "arguments": {
+              "driver": "D2",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 862,
+              "boxes": 24,
+              "driver": "D2",
+              "fingerprint": "1b1620555d4547f5d25db013bf52f0f743a96dfed503031a2a27b134426462dc",
+              "reasons": [],
+              "recipient": "B",
+              "valid": true
+            },
+            "source": "synthetic fixture"
+          }
+        }
+      ]
+    },
+    {
+      "mode": "llm",
+      "trial": 1,
+      "scenario": "Happy path",
+      "seconds": 16.75,
+      "status": "PROPOSED",
+      "correct": true,
+      "failed": false,
+      "under_30_seconds": true,
+      "tool_calls": 8,
+      "validations": 2,
+      "trace": [
+        {
+          "tool": "read_case",
+          "detail": {
+            "arguments": {},
+            "result": {
+              "boxes": 24,
+              "cancellation": "Original volunteer cancelled at 14:00. Recover all 24 packed boxes.",
+              "deadline": 870,
+              "drivers": [
+                "D1",
+                "D2",
+                "D3"
+              ],
+              "handling": "sealed ambient meals",
+              "pickup": 840,
+              "recipients": [
+                "A",
+                "B"
+              ]
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D1"
+            },
+            "result": {
+              "available": false,
+              "capacity": 30,
+              "handling": true,
+              "id": "D1",
+              "name": "Driver 1",
+              "travel": 12
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D2"
+            },
+            "result": {
+              "available": true,
+              "capacity": 30,
+              "handling": true,
+              "id": "D2",
+              "name": "Driver 2",
+              "travel": 22
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_driver",
+          "detail": {
+            "arguments": {
+              "driver": "D3"
+            },
+            "result": {
+              "available": true,
+              "capacity": 10,
+              "handling": true,
+              "id": "D3",
+              "name": "Driver 3",
+              "travel": 8
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_recipient",
+          "detail": {
+            "arguments": {
+              "recipient": "A"
+            },
+            "result": {
+              "accepting": true,
+              "capacity": 8,
+              "closes": 900,
+              "handling": true,
+              "id": "A",
+              "name": "Recipient A",
+              "opens": 840
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "inspect_recipient",
+          "detail": {
+            "arguments": {
+              "recipient": "B"
+            },
+            "result": {
+              "accepting": true,
+              "capacity": 30,
+              "closes": 900,
+              "handling": true,
+              "id": "B",
+              "name": "Recipient B",
+              "opens": 840
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "validate_pair",
+          "detail": {
+            "arguments": {
+              "driver": "D2",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 862,
+              "boxes": 24,
+              "driver": "D2",
+              "reasons": [],
+              "recipient": "B",
+              "valid": true
+            },
+            "source": "synthetic fixture"
+          }
+        },
+        {
+          "tool": "propose",
+          "detail": {
+            "arguments": {
+              "driver": "D2",
+              "recipient": "B"
+            },
+            "result": {
+              "arrival": 862,
+              "boxes": 24,
+              "driver": "D2",
+              "fingerprint": "2bba4a98676aafd2a341826e3832ead6d9254332e8106bee477bd957642b9fa4",
+              "reasons": [],
+              "recipient": "B",
+              "valid": true
+            },
+            "source": "synthetic fixture"
+          }
+        }
+      ]
+    }
+  ],
+  "note": "Synthetic inputs, isolated databases; proposal time excludes human approval. No LLM superiority is assumed.",
+  "stress_checks": [
+    {
+      "check": "Simultaneous cancellations",
+      "passed": true,
+      "evidence": "1 of 4 competing cases reserved capacity (expected 1)"
+    },
+    {
+      "check": "Duplicate reservation requests",
+      "passed": true,
+      "evidence": "1 unique reservation across 10 repeated commands"
+    },
+    {
+      "check": "Delayed confirmation",
+      "passed": true,
+      "evidence": "Clock advanced 121 seconds; hold expired and capacity was reusable"
+    },
+    {
+      "check": "Changing availability",
+      "passed": true,
+      "evidence": "Stale approval blocked; insufficient capacity escalated"
+    },
+    {
+      "check": "Adaptive replanning",
+      "passed": true,
+      "evidence": "Declined D3; proposed D2 with fresh approval required"
+    }
+  ]
+}
