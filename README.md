@@ -4,6 +4,14 @@ AgentOps 2026 · 24 October 2026 · Team **ORIGINAL_anomaly** · **Shubham Parma
 
 Domain: Transport / Retail and Supply. ReRoute recovers a cancelled food pickup using a bounded investigation loop, deterministic feasibility checks, human approval and verified sandbox bookings.
 
+## Live demo
+
+**[Launch ReRoute ↗](https://agentops2026sparmar.streamlit.app/)**
+
+Try the food-pickup recovery workflow with synthetic scenarios, human approval, and sandbox booking confirmations.
+
+> If the app is sleeping, click **“Yes, get this app back up!”** and wait for it to start.
+
 **Status:** working hackathon sandbox prototype. The full investigation, approval,
 reservation and both-party confirmation workflow is implemented. Driver and
 recipient replies, travel times and availability are simulated. Real maps,
