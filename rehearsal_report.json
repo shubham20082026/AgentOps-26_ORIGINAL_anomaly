@@ -1,0 +1,376 @@
+{
+  "mode": "deterministic",
+  "synthetic": true,
+  "live_provider_tested": false,
+  "invalid_scenarios": {
+    "No capacity": "REJECTED / ESCALATED",
+    "Late arrival": "REJECTED / ESCALATED",
+    "Missing handling": "REJECTED / ESCALATED",
+    "Closed recipient": "REJECTED / ESCALATED",
+    "Driver unavailable": "REJECTED / ESCALATED"
+  },
+  "proposal_seconds": [
+    0.058287,
+    0.046749,
+    0.045065,
+    0.044491,
+    0.051032,
+    0.048991,
+    0.059175,
+    0.055939,
+    0.107316,
+    0.066746
+  ],
+  "sample_evidence": {
+    "case": {
+      "id": "RR-62D0BD4F",
+      "version": 2,
+      "status": "CONFIRMED",
+      "data": {
+        "id": "RR-62D0BD4F",
+        "boxes": 24,
+        "pickup": 840,
+        "deadline": 870,
+        "donor": "Campus dining hall",
+        "cancellation": "Original volunteer cancelled at 14:00. Recover all 24 packed boxes.",
+        "handling": "sealed ambient meals",
+        "recipients": [
+          {
+            "id": "A",
+            "name": "Recipient A",
+            "capacity": 8,
+            "opens": 840,
+            "closes": 900,
+            "handling": true,
+            "accepting": true
+          },
+          {
+            "id": "B",
+            "name": "Recipient B",
+            "capacity": 30,
+            "opens": 840,
+            "closes": 900,
+            "handling": true,
+            "accepting": true
+          }
+        ],
+        "drivers": [
+          {
+            "id": "D1",
+            "name": "Driver 1",
+            "capacity": 30,
+            "available": false,
+            "handling": true,
+            "travel": 12
+          },
+          {
+            "id": "D2",
+            "name": "Driver 2",
+            "capacity": 30,
+            "available": true,
+            "handling": true,
+            "travel": 22
+          },
+          {
+            "id": "D3",
+            "name": "Driver 3",
+            "capacity": 10,
+            "available": true,
+            "handling": true,
+            "travel": 8
+          }
+        ],
+        "replies": {
+          "driver": "accept",
+          "recipient": "accept"
+        },
+        "scenario": "Happy path"
+      },
+      "plan": {
+        "driver": "D2",
+        "recipient": "B",
+        "arrival": 862,
+        "boxes": 24,
+        "valid": true,
+        "reasons": [],
+        "fingerprint": "ca8cfc27a3b5d44716312eae71d8669b56425d671643c022b98b07ae407a2ffd"
+      },
+      "approval": {
+        "actor": "Rehearsal dispatcher",
+        "version": 2,
+        "fingerprint": "ca8cfc27a3b5d44716312eae71d8669b56425d671643c022b98b07ae407a2ffd",
+        "at": 1792687880.01996
+      }
+    },
+    "holds": [
+      {
+        "id": "cc7d8c379b934c5bada9d611e3591c75",
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "driver": "D2",
+        "recipient": "B",
+        "boxes": 24,
+        "expires": 1792688000.022953,
+        "status": "CONFIRMED",
+        "driver_reply": "accept",
+        "recipient_reply": "accept"
+      }
+    ],
+    "audit": [
+      {
+        "seq": 1,
+        "at": 1792687879.9594707,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "ingest_cancellation",
+        "detail": "{\"boxes\": 24, \"cancellation\": \"Original volunteer cancelled at 14:00. Recover all 24 packed boxes.\", \"deadline\": 870, \"donor\": \"Campus dining hall\", \"drivers\": [{\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D1\", \"name\": \"Driver 1\", \"travel\": 12}, {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D2\", \"name\": \"Driver 2\", \"travel\": 22}, {\"available\": true, \"capacity\": 10, \"handling\": true, \"id\": \"D3\", \"name\": \"Driver 3\", \"travel\": 8}], \"handling\": \"sealed ambient meals\", \"id\": \"RR-62D0BD4F\", \"pickup\": 840, \"recipients\": [{\"accepting\": true, \"capacity\": 8, \"closes\": 900, \"handling\": true, \"id\": \"A\", \"name\": \"Recipient A\", \"opens\": 840}, {\"accepting\": true, \"capacity\": 30, \"closes\": 900, \"handling\": true, \"id\": \"B\", \"name\": \"Recipient B\", \"opens\": 840}], \"replies\": {\"driver\": \"accept\", \"recipient\": \"accept\"}, \"scenario\": \"Happy path\"}"
+      },
+      {
+        "seq": 2,
+        "at": 1792687879.9614701,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "agent_started",
+        "detail": "{\"mode\": \"deterministic\"}"
+      },
+      {
+        "seq": 3,
+        "at": 1792687879.9634814,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "read_case",
+        "detail": "{\"arguments\": {}, \"result\": {\"boxes\": 24, \"cancellation\": \"Original volunteer cancelled at 14:00. Recover all 24 packed boxes.\", \"deadline\": 870, \"drivers\": [\"D1\", \"D2\", \"D3\"], \"handling\": \"sealed ambient meals\", \"pickup\": 840, \"recipients\": [\"A\", \"B\"]}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 4,
+        "at": 1792687879.9674742,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "inspect_recipient",
+        "detail": "{\"arguments\": {\"recipient\": \"A\"}, \"result\": {\"accepting\": true, \"capacity\": 8, \"closes\": 900, \"handling\": true, \"id\": \"A\", \"name\": \"Recipient A\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 5,
+        "at": 1792687879.9694703,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "inspect_recipient",
+        "detail": "{\"arguments\": {\"recipient\": \"B\"}, \"result\": {\"accepting\": true, \"capacity\": 30, \"closes\": 900, \"handling\": true, \"id\": \"B\", \"name\": \"Recipient B\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 6,
+        "at": 1792687879.971465,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "inspect_driver",
+        "detail": "{\"arguments\": {\"driver\": \"D1\"}, \"result\": {\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D1\", \"name\": \"Driver 1\", \"travel\": 12}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 7,
+        "at": 1792687879.9744687,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "inspect_driver",
+        "detail": "{\"arguments\": {\"driver\": \"D2\"}, \"result\": {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D2\", \"name\": \"Driver 2\", \"travel\": 22}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 8,
+        "at": 1792687879.9774685,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "inspect_driver",
+        "detail": "{\"arguments\": {\"driver\": \"D3\"}, \"result\": {\"available\": true, \"capacity\": 10, \"handling\": true, \"id\": \"D3\", \"name\": \"Driver 3\", \"travel\": 8}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 9,
+        "at": 1792687879.9794679,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 852, \"boxes\": 24, \"driver\": \"D1\", \"reasons\": [\"Driver unavailable\", \"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}"
+      },
+      {
+        "seq": 10,
+        "at": 1792687879.9814692,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D1\", \"recipient\": \"A\"}, \"result\": {\"arrival\": 852, \"boxes\": 24, \"driver\": \"D1\", \"reasons\": [\"Driver unavailable\", \"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 11,
+        "at": 1792687879.9844744,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}"
+      },
+      {
+        "seq": 12,
+        "at": 1792687879.9864748,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"A\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 13,
+        "at": 1792687879.9894722,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 848, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient driver capacity\", \"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}"
+      },
+      {
+        "seq": 14,
+        "at": 1792687879.9914742,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D3\", \"recipient\": \"A\"}, \"result\": {\"arrival\": 848, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient driver capacity\", \"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 15,
+        "at": 1792687879.9954755,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 852, \"boxes\": 24, \"driver\": \"D1\", \"reasons\": [\"Driver unavailable\"], \"recipient\": \"B\", \"valid\": false}"
+      },
+      {
+        "seq": 16,
+        "at": 1792687879.9974673,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D1\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 852, \"boxes\": 24, \"driver\": \"D1\", \"reasons\": [\"Driver unavailable\"], \"recipient\": \"B\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 17,
+        "at": 1792687880.000491,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+      },
+      {
+        "seq": 18,
+        "at": 1792687880.003492,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 19,
+        "at": 1792687880.005832,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 848, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient driver capacity\"], \"recipient\": \"B\", \"valid\": false}"
+      },
+      {
+        "seq": 20,
+        "at": 1792687880.0088346,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_pair",
+        "detail": "{\"arguments\": {\"driver\": \"D3\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 848, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient driver capacity\"], \"recipient\": \"B\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 21,
+        "at": 1792687880.0108337,
+        "case_id": "RR-62D0BD4F",
+        "version": 1,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+      },
+      {
+        "seq": 22,
+        "at": 1792687880.0118353,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "propose_plan",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"fingerprint\": \"ca8cfc27a3b5d44716312eae71d8669b56425d671643c022b98b07ae407a2ffd\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+      },
+      {
+        "seq": 23,
+        "at": 1792687880.0138328,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "propose",
+        "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"fingerprint\": \"ca8cfc27a3b5d44716312eae71d8669b56425d671643c022b98b07ae407a2ffd\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+      },
+      {
+        "seq": 24,
+        "at": 1792687880.0169508,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "agent_completed",
+        "detail": "{\"elapsed_seconds\": 0.063, \"mode\": \"deterministic\"}"
+      },
+      {
+        "seq": 25,
+        "at": 1792687880.01996,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+      },
+      {
+        "seq": 26,
+        "at": 1792687880.01996,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "human_approval",
+        "detail": "{\"actor\": \"Rehearsal dispatcher\", \"at\": 1792687880.01996, \"fingerprint\": \"ca8cfc27a3b5d44716312eae71d8669b56425d671643c022b98b07ae407a2ffd\", \"version\": 2}"
+      },
+      {
+        "seq": 27,
+        "at": 1792687880.0219557,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "validate_constraints",
+        "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+      },
+      {
+        "seq": 28,
+        "at": 1792687880.022953,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "reserve_capacity",
+        "detail": "{\"hold\": \"cc7d8c379b934c5bada9d611e3591c75\", \"simulated_transport\": true, \"ttl_seconds\": 120}"
+      },
+      {
+        "seq": 29,
+        "at": 1792687880.026953,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "simulated_driver_reply",
+        "detail": "{\"hold\": \"cc7d8c379b934c5bada9d611e3591c75\", \"response\": \"accept\"}"
+      },
+      {
+        "seq": 30,
+        "at": 1792687880.0289545,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "simulated_recipient_reply",
+        "detail": "{\"hold\": \"cc7d8c379b934c5bada9d611e3591c75\", \"response\": \"accept\"}"
+      },
+      {
+        "seq": 31,
+        "at": 1792687880.0289545,
+        "case_id": "RR-62D0BD4F",
+        "version": 2,
+        "tool": "verify_booking",
+        "detail": "{\"both_accepted\": true, \"hold\": \"cc7d8c379b934c5bada9d611e3591c75\"}"
+      }
+    ]
+  },
+  "failure_recovery": "D3 declined \u2192 released \u2192 D2 proposed; fresh approval required",
+  "proposal_median_seconds": 0.053486,
+  "proposal_max_seconds": 0.107316,
+  "repeated_reservations": 100,
+  "unique_reservations": 10,
+  "duplicate_reservations": 0
+}

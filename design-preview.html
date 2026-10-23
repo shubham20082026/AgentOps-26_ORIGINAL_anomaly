@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ReRoute · Earthy design preview</title><style>
+.stApp {background:#f7f3e9;color:#303c2d;background-image:radial-gradient(#8a75571a .55px,transparent .55px);background-size:7px 7px}
+:root {--sand-muted:#63635e;--sand-border:#cfceca;--sand-ink:#21201c}
+[data-testid="stSidebar"] {background:#ebe8d9;border-right:1px solid #d5d3be}
+[data-testid="stHeader"] {background:#f7f3e9ed}
+[data-testid="stMainBlockContainer"] {padding-top:2.7rem;max-width:1450px}
+h1,h2,h3 {font-family:Georgia,'Times New Roman',serif!important;font-weight:400!important;letter-spacing:-.035em;color:#34452e}
+h3 {font-size:1.55rem!important} p {line-height:1.65}
+[data-testid="stCaptionContainer"] {color:var(--sand-muted)}
+.eyebrow {color:#897057;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+.hero {display:flex;align-items:center;justify-content:space-between;gap:20px;padding:4px 0 26px;border-bottom:1px solid #c7cbb5;margin-bottom:22px}
+.hero-copy {flex:1}.hero h1 {font-size:clamp(2.7rem,4.5vw,4.4rem);line-height:1.04;margin:16px 0 13px;padding:0}
+.hero h1 em {color:#a65336;font-weight:400}.hero p {color:#6b705f;font-size:15px;max-width:440px;margin:0}
+.hero-art {width:230px;flex-shrink:0;position:relative;text-align:center}
+.hero-art svg {width:100%;height:auto}.art-note {font:italic 13px Georgia,serif;color:#87644a;transform:rotate(-4deg);margin-top:-12px}
+.desk-brand {font:34px Georgia,serif;letter-spacing:-1.5px;color:#34452e;margin-bottom:5px}.desk-brand span {color:#a65336}
+.desk-note {font:italic 14px Georgia,serif;color:#6f755f;margin:0 0 20px}
+.desk-label {font-size:10px;letter-spacing:.17em;color:#81745d;margin-bottom:14px;font-weight:700}
+[data-testid="stMetric"] {background:#fffdf5;border:1px solid #d6d7c3;border-top:3px solid #899770;border-radius:3px 12px 3px 12px;padding:17px 15px;box-shadow:0 3px 0 #e8e4d6}
+[data-testid="stMetricLabel"] {color:#747762;font-size:12px}
+[data-testid="stMetricValue"] {font-size:1.65rem;white-space:normal}
+[data-testid="stMetricValue"] > div {font-family:Georgia,serif;color:#3f5035;white-space:normal;overflow-wrap:normal}
+.stButton>button,.stDownloadButton>button {border-radius:5px 9px 5px 9px;border-color:#c5c9b4;box-shadow:0 2px 0 #d6d7c1;font-weight:500;transition:all .15s}
+.stButton>button:hover,.stDownloadButton>button:hover {border-color:#a65336;color:#a65336;transform:translateY(-1px)}
+.stButton>button[kind="primary"] {background:#a65336;border-color:#a65336;color:#fff9ed;box-shadow:0 3px 0 #86452e}
+.stButton>button[kind="primary"]:hover {background:#91452d;color:#fff9ed}
+.stButton>button:disabled {box-shadow:none;opacity:.5}
+[data-baseweb="select"]>div,[data-baseweb="input"],[data-baseweb="base-input"] {background:#fffdf5!important;border-color:#c9ceb7!important;border-radius:6px!important;color:#303c2d!important}
+[data-testid="stTextInput"] input {color:#303c2d!important}
+[data-testid="stTabs"] [role="tablist"] {border-bottom:1px solid #d4d5be;gap:25px}
+[data-testid="stTabs"] [role="tab"] {color:#777b64;padding-bottom:13px}
+[data-testid="stTabs"] [aria-selected="true"] {color:#934b32;font-weight:600}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {background:#a65336}
+[data-testid="stExpander"] {background:#efeddf;border-color:#d6d8c3;border-radius:7px}
+[data-testid="stAlert"] {border-radius:5px 12px 5px 12px}
+.journey {display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0 20px;margin-bottom:15px;border-bottom:1px solid #d6d8c3;color:#7c806a;font-size:12px}
+.journey span {display:flex;align-items:center;gap:8px}.journey b {display:inline-grid;place-items:center;width:25px;height:25px;border:1px solid #b9c0a2;border-radius:50%;font-weight:400;font-family:Georgia,serif}
+.journey .done {color:#4e6540}.journey .done b {background:#e2e8d6;border-color:#a0b18b}
+.journey .current {color:#934b32;font-weight:600}.journey .current b {background:#a65336;border-color:#a65336;color:#fff9ed}
+hr {border-color:#d3d4bd!important}
+@media(max-width:900px) {.hero-art {width:150px}.hero h1 {font-size:2.8rem}.hero p {font-size:14px}}
+@media(max-width:600px) {.hero-art {display:none}.hero h1 {font-size:2.8rem}[data-testid="stMainBlockContainer"] {padding:2rem 1rem}}
+</style><style>body{margin:0;font:14px system-ui,sans-serif;background:#f7f3e9;color:#303c2d}*{box-sizing:border-box}aside{position:fixed;inset:0 auto 0 0;width:260px;background:#ebe8d9;padding:38px 24px;border-right:1px solid #d5d3be}main{margin-left:260px;padding:34px 42px}small{color:#63635e}hr{border:0;border-top:1px solid #d3d4bd;margin:24px 0}label{display:block;font-size:12px;margin:18px 0 8px}select,input{width:100%;background:#fffdf5;border:1px solid #c9ceb7;border-radius:6px;padding:11px;color:#303c2d}button{background:#a65336;border:0;border-radius:5px 9px;color:#fff9ed;padding:12px 18px;font:inherit;box-shadow:0 3px 0 #86452e}aside button{width:100%;margin:18px 0}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}.metric{background:#fffdf5;border:1px solid #d6d7c3;border-top:3px solid #899770;border-radius:3px 12px;padding:16px;box-shadow:0 3px 0 #e8e4d6}.metric strong{display:block;font:26px Georgia;color:#3f5035;margin-top:10px}.tabs{display:flex;gap:28px;border-bottom:1px solid #d4d5be;padding:0 0 12px;margin-top:5px}.tabs b{color:#934b32}.workspace{display:grid;grid-template-columns:1.3fr 1fr;gap:36px;margin-top:22px}h3{font-size:24px}.plan{background:#fffdf5;border:1px solid #d6d7c3;border-radius:8px;padding:18px}.tag{background:#e2e8d6;color:#4e6540;border-radius:20px;padding:5px 10px;font-size:11px}.preview-note{font-size:11px;letter-spacing:.04em;color:#81745d}</style><aside><div class="desk-label">THE FOOD RESCUE DESK</div><div class="desk-brand">ReRoute<span>↗</span></div><div class="desk-note">Good food deserves a second chance.</div><small>ORIGINAL_anomaly · Shubham Parmar</small><hr><label>Practice scenario · synthetic</label><select><option>Happy path</option></select><p><small>24 boxes. A cancelled pickup.<br>Let’s find another way.</small></p><button>Ingest cancellation</button><label>Rescue notebook</label><select><option>RR-001 · Campus dining hall</option></select><hr><label>Investigation mode</label><p>◉ Deterministic · offline</p><small>Same checked tools. No API key needed.</small><hr><small>AgentOps 2026 · 24 October<br>Transport / Retail and Supply</small></aside><main><div class="preview-note">DESIGN PREVIEW · SYNTHETIC CASE · OPEN STREAMLIT FOR THE WORKING APP</div><div class="hero"><div class="hero-copy"><span class="eyebrow">A SMALL DETOUR. A LITTLE MORE POSSIBILITY.</span><h1>Good food.<br><em>Another way home.</em></h1><p>A pickup fell through. Let’s find a thoughtful, checked replacement — and make sure everyone is on board.</p></div><div class="hero-art">
+<svg viewBox="0 0 250 210" xmlns="http://www.w3.org/2000/svg" fill="none" aria-label="Line drawing of a food crate with vegetables and a winding route" role="img">
+<ellipse cx="128" cy="181" rx="90" ry="8" fill="#dedcc5"/>
+<path d="M14 143C-3 102 38 89 60 102S72 153 111 140 141 80 195 72" stroke="#acb08a" stroke-width="2" stroke-dasharray="4 6" stroke-linecap="round"/>
+<circle cx="16" cy="143" r="5" fill="#a65336"/><path d="m185 66 14 5-8 12" stroke="#a65336" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M80 116C67 93 65 65 81 52c17 7 19 30 12 48" fill="#a5b18a" stroke="#5e704b" stroke-width="2"/>
+<path d="m82 67 7 49M82 83l-8-8m12 20 8-11" stroke="#5e704b" stroke-width="1.7" stroke-linecap="round"/>
+<path d="M105 112c-9-16-2-32 12-34 3-21 24-24 34-11 20-1 26 21 15 33l-5 15" fill="#c1c8a2" stroke="#5e704b" stroke-width="2"/>
+<path d="m135 86-1 33m0-18-13-10m13 16 16-17" stroke="#72845b" stroke-width="2" stroke-linecap="round"/>
+<path d="M163 112c-3-14 4-24 16-23s20 14 12 27" fill="#bd7253" stroke="#965339" stroke-width="2"/>
+<path d="m176 92 4-8m-7 4 7 3 7-3" stroke="#5e704b" stroke-width="2" stroke-linecap="round"/>
+<path d="m61 113 139-2-12 64-115 2Z" fill="#e9d4ac" stroke="#8b7854" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="m64 126 133-2m-130 18 126-2m-123 18 119-2M86 114l7 62m79-64-9 63" stroke="#aa9165" stroke-width="2"/>
+<rect x="111" y="131" width="39" height="29" rx="2" fill="#f7f3e9" stroke="#a6a17a" transform="rotate(-5 111 131)"/>
+<path d="m122 147 15-1m-5-5 6 5-5 6" stroke="#a65336" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="m211 126 3-8 3 8 8 3-8 3-3 8-3-8-8-3Z" fill="#b4ba95"/>
+</svg><div class="art-note">a second chance, carefully carried</div></div></div><small>RR-001 · Case version 2 · Happy path · All travel times and replies are synthetic</small><div class="metrics"><div class="metric"><small>Donation at risk</small><strong>24 boxes</strong></div><div class="metric"><small>Food deadline</small><strong>14:30</strong></div><div class="metric"><small>Recovery status</small><strong>Proposed</strong></div><div class="metric"><small>Confirmed in sandbox</small><strong>0 boxes</strong></div></div><div class="journey"><span class="done"><b>✓</b>Cancellation</span><span class="done"><b>✓</b>Investigation</span><span class="current"><b>3</b>Your approval</span><span><b>4</b>Reservation</span><span><b>5</b>Both replies</span></div><div class="tabs"><b>Recovery workspace</b><span>Evidence & constraints</span><span>Audit & export</span><span>How it works</span></div><div class="workspace"><section><h3>01 / Find another way</h3><p>Original volunteer cancelled at 14:00.<br>Recover all 24 packed boxes.</p><small>Campus dining hall · sealed ambient meals</small><h3>02 / Give the plan a human check</h3><div class="plan"><span class="tag">All checks passed</span><h3>Driver 2 → Recipient B</h3><p>24 boxes · Arrival <b>14:22</b> · 8 minutes to spare</p><small>Recipient A was rejected: only 8 boxes of space.</small></div></section><section><h3>03 / Reserve & verify</h3><p>A checked plan still needs your approval. Then we’ll hold capacity and wait for both simulated replies.</p><label>Dispatcher approving this plan</label><input placeholder="Your name"><p><small>□ I reviewed capacity, handling and arrival.</small></p><button>Approve this version</button><p><small>Approval belongs to this exact plan version.</small></p></section></div></main></html>

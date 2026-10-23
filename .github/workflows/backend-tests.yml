@@ -1,0 +1,16 @@
+name: Backend tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Test workflow, encrypted configuration and API error handling
+        run: python -m pytest tests/test_workflow.py tests/test_config.py tests/test_api_errors.py -q

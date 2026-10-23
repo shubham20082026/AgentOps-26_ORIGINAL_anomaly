@@ -1,0 +1,60 @@
+{
+  "id": "RR-001",
+  "boxes": 24,
+  "pickup": 840,
+  "deadline": 870,
+  "donor": "Campus dining hall",
+  "cancellation": "Original volunteer cancelled at 14:00. Recover all 24 packed boxes.",
+  "handling": "sealed ambient meals",
+  "recipients": [
+    {
+      "id": "A",
+      "name": "Recipient A",
+      "capacity": 8,
+      "opens": 840,
+      "closes": 900,
+      "handling": true,
+      "accepting": true
+    },
+    {
+      "id": "B",
+      "name": "Recipient B",
+      "capacity": 30,
+      "opens": 840,
+      "closes": 900,
+      "handling": true,
+      "accepting": true
+    }
+  ],
+  "drivers": [
+    {
+      "id": "D1",
+      "name": "Driver 1",
+      "capacity": 30,
+      "available": false,
+      "handling": true,
+      "travel": 12
+    },
+    {
+      "id": "D2",
+      "name": "Driver 2",
+      "capacity": 30,
+      "available": true,
+      "handling": true,
+      "travel": 22
+    },
+    {
+      "id": "D3",
+      "name": "Driver 3",
+      "capacity": 10,
+      "available": true,
+      "handling": true,
+      "travel": 8
+    }
+  ],
+  "replies": {
+    "driver": "accept",
+    "recipient": "accept"
+  },
+  "scenario": "Happy path"
+}

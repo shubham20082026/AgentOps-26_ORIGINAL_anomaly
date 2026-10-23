@@ -1,0 +1,35 @@
+# Credentials and local configuration
+.private/
+.env
+.env.*
+.streamlit/secrets.toml
+*.pem
+*.key
+
+# Local databases, including backups and SQLite sidecar files
+data/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+
+# Python environments, build output and caches
+.venv/
+.venv312/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Machine-specific files and logs
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
