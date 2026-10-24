@@ -4,6 +4,12 @@ AgentOps 2026 · 24 October 2026 · Team **ORIGINAL_anomaly** · **Shubham Parma
 
 Domain: Transport / Retail and Supply. ReRoute recovers a cancelled food pickup using a bounded investigation loop, deterministic feasibility checks, human approval and verified sandbox bookings.
 
+## Judging documents
+
+- [Governance and Responsible AI](governanceandresponsiblity.md)
+- [MVP Readiness](MVPreadiness.md)
+- [Originality and Innovation](originalityandinnovation.md)
+
 ## Interface and dispatcher login
 
 Dark forest accents now frame the workspace. Optional single-dispatcher login gates the entire app when configured. See [LOGIN_SETUP.md](LOGIN_SETUP.md) to generate a password hash and configure Streamlit Secrets. Without login configuration, the app remains a public synthetic sandbox. This does not implement RBAC or tenant isolation.
