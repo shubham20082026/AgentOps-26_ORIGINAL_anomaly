@@ -1,39 +1,20 @@
-# LLM repair release update — 24 October 2026
+# Final submission checklist
 
-The LLM path is repaired and locally validated: **65 tests passed**, live LLM **30/30 correct**, no silent fallback; median **22.1015 seconds**, range **14.125–36.516**. The pre-repair 1/30 dataset remains archived. See LLM_REPAIR.md and evaluation_report.json.
+Updated 24 October 2026. Original forest-design app retained. No futuristic preview is included in this project.
 
-Before the 18:00 IST freeze: push **all** changed Python modules, tests and docs together; reboot Streamlit Cloud; compare the displayed checkout hash with the pushed commit; select LLM mode; Start fresh demo; rehearse approval, reservation and both replies. Local SQLite and Windows credentials are preserved. Cloud durability and authenticated roles remain outside scope.
+## Checked locally
 
-Historical release notes follow and do not describe the new deployment state.
+- 70 automated tests passed in 12.26 seconds.
+- README shortened and judging documents aligned with current login and workflow.
+- Live LLM benchmark preserved: 30/30 correct, median 22.1 s, range 14.1–36.5 s. Five proposals and 25 escalations, not 30 rescues.
+- Local credentials and databases preserved outside the clean upload package.
 
----
+## Complete before submitting
 
-# Submission release checklist
+1. Commit and push all intended project files from your original Git checkout. Exclude private configuration, databases and environments.
+2. Reboot Streamlit, configure Secrets as needed and compare Build and deployment with the final full GitHub commit SHA.
+3. Rehearse Happy path through approval, reservation and both simulated accepts. Check LLM provider access separately.
+4. Upload the public repository URL, full 40-character commit SHA, final PPT/PPTX and MP4 demo (up to 50 MB) at the final-project portal.
+5. Confirm the declaration and wait for the saved receipt before **24 October 2026, 18:00 IST**. Freeze development, commits, pushes and uploads through judging.
 
-Freeze: **24 October 2026, 18:00 IST** (confirmed by the user). This checklist is a factual record, not a claim that every release action is complete.
-
-## Completed in the prepared checkout
-
-- Synced with public `main` at `d02d03f95263c41bff5c3f02836221e7fe5ba5d8` before edits. The repeated measurements used code from `fe59dfe242f13fc88d67395293aa6ee94b49cc92`; the intervening public commit changed README/devcontainer files, not the controller.
-- Ran five trials per mode across six scenarios (60 attempts) and saved raw results/traces in `evaluation_report.json`.
-- Baseline: 30/30 correct. LLM: 1/30 correct, 29 investigation failures. The short overall LLM median includes failures and is not recovery time. A separate diagnostic returned HTTP 429; original failed runs lack individual cause details.
-- Added the slide-aligned business model, reuse points, Responsible AI/roles gap and honest README status.
-- Full suite: **54 passed in 33.55 seconds**, including UI, transaction invariants, failure-aware reporting and build revision checks.
-- Verified the currently hosted app through a new isolated deterministic Happy-path case `RR-212716C1`: version 2, dispatcher approval, reservation, both simulated accepts, Confirmed, 24 boxes. This tests sandbox behavior, not actual delivery or live LLM reliability.
-- Preserved local encrypted credentials and existing databases; neither belongs in a commit.
-
-## Pending account/deployment actions
-
-- GitHub description/topics/website are not applied: the available browser is signed out and no noninteractive GitHub credential was available. Exact values are in `REPOSITORY_METADATA.md`.
-- The submission changes are not yet on public `main`. Commit/push from an authenticated checkout before the freeze.
-- Exact deployed commit parity is **unverified**. The currently hosted app lacks the new revision display. After push and redeploy, open **Build and deployment** and compare its full hash against `git rev-parse HEAD` and GitHub's final commit. Do not infer parity from a healthy homepage.
-- If needed, reboot the hosted app and repeat the offline end-to-end flow. Test the API separately only when provider quota is available.
-
-## Before the freeze
-
-1. Sign in to GitHub, apply repository metadata, and commit/push the prepared changes.
-2. Confirm Actions is green and the live build reports the exact pushed SHA.
-3. Recheck credentials and the evaluation report before any later commit. Never upload `.private`, `.env` or live SQLite data.
-4. Record the final commit SHA and time locally. Make no repository or deployment changes after **18:00 IST on 24 October**.
-
-The hosted app's local SQLite files may be replaced on cloud rebuild; a production durable database, authentication and role separation remain future work.
+GitHub push, hosted parity, presentation/video content parity and portal receipt require your confirmation. Local tests do not prove these steps are complete.

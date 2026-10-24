@@ -42,7 +42,7 @@ The LLM loop is bounded to 18 rounds and 24 tool calls. A 180-second elapsed bud
 
 ## Evidence and remaining gaps
 
-The latest local automated suite passed **69 tests**, including login, logout, expiry, partial-configuration blocking and throttling alongside workflow tests. Repeated live LLM results and a decline/replan check are documented in [MVPreadiness.md](MVPreadiness.md). These checks do not establish production security or operational reliability.
+The latest local automated suite passed **70 tests**, including login, logout, expiry, partial-configuration blocking and throttling alongside workflow tests. Repeated live LLM results and a decline/replan check are documented in [MVPreadiness.md](MVPreadiness.md). These checks do not establish production security or operational reliability.
 
 Before operational use, add an identity provider, server-side role authorization, authenticated external replies, protected durable audit storage, tenant isolation, retention controls and security testing. Community Cloud rebuilds may discard local SQLite files. Food-safety handling booleans require replacement with verified evidence.
 

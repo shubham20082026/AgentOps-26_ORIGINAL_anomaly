@@ -1,3 +1,11 @@
+# Final submission check — 24 October 2026
+
+**70 tests passed in 12.26 seconds** in the original forest-design project. This includes the complete Streamlit workflow, login/logout/expiry, failure handling, reservations and a regression verifying that the competing-booking hint appears only for actual other active allocations. Creator-credit and styling changes are included. No new live-provider benchmark was run during this final check. The 30/30 repeated LLM results below remain the recorded earlier experiment. Hosted commit parity is unverified.
+
+Historical verification records follow.
+
+---
+
 # Repaired LLM path — 24 October 2026
 
 Full automated suite: **65 passed in 32.53 seconds**. Tests cover legal action availability, evidence-bound terminal tools, batched inspections and validations, specific rejection feedback, protocol failures before partial execution, stale case evidence, pacing, categorized UI errors and absence of silent deterministic fallback.

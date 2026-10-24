@@ -289,6 +289,6 @@ The investigator reads the cancellation, inspects driver and recipient evidence,
 
 **Simulated:** cancellations, resource availability, handling evidence, fixed travel times, driver replies and recipient replies. No real food rescue, GPS, SMS, NGO or vehicle booking integration is claimed.
 
-**Hackathon scope:** one whole donation, one driver, one recipient. Food safety is represented by synthetic handling flags; no production certification. Local dispatcher name is attribution, not authentication. Confirmed allocations remain consumed until an operational completion workflow is built.
+**Hackathon scope:** one whole donation, one driver, one recipient. Food safety is represented by synthetic handling flags; no production certification. Public-mode names provide attribution only. Configured login authenticates one dispatcher account, without role separation. Confirmed allocations remain consumed until an operational completion workflow is built.
 ''')
 

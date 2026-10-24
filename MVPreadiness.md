@@ -23,7 +23,7 @@ The interface includes fresh demo controls, API connection checks, an evaluation
 
 ## Automated evidence
 
-The latest local suite passed **69 tests in 12.95 seconds** after the login addition. Coverage includes the full UI workflow, stale approvals, shared-capacity conflicts, duplicate commands, expiry, release, persistence, model protocol, safe errors and authentication gating. Later creator-credit edits changed display text only and passed syntax checks.
+The latest local suite passed **70 tests in 12.26 seconds** after the login and capacity-message fixes. Coverage includes the full UI workflow, stale approvals, shared-capacity conflicts, duplicate commands, expiry, release, persistence, model protocol, safe errors and authentication gating. Later creator-credit edits changed display text only and passed syntax checks.
 
 Five deterministic stress checks passed: four simultaneous cases competing for capacity, ten repeated reservation commands, expiry with an injected clock, capacity-change invalidation and decline-driven replanning. This is limited synthetic concurrency evidence, not a production load test.
 
