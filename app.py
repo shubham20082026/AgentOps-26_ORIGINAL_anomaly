@@ -10,7 +10,7 @@ from reroute import config as app_config
 from reroute import agent as agent_module
 from reroute.fixtures import SCENARIOS, fixture, hhmm
 
-st.set_page_config(page_title='ReRoute | The rescue desk',page_icon='🌿',layout='wide')
+st.set_page_config(page_title='ReRoute by Shubham Parmar | The rescue desk',page_icon='🌿',layout='wide')
 st.markdown('''<style>
 .stApp {background:#f7f3e9;color:#303c2d;background-image:radial-gradient(#8a75571a .55px,transparent .55px);background-size:7px 7px}
 :root {--sand-muted:#63635e;--sand-border:#cfceca;--sand-ink:#21201c}
@@ -68,6 +68,7 @@ hr {border-color:#d3d4bd!important}
 [data-testid="stSidebar"] [data-baseweb="select"]>div {background:#f6f0e4!important;color:#24372b!important}
 .hero {background:#27382e;border:1px solid #354a3a;border-radius:16px;padding:30px 34px;margin-bottom:26px}
 .hero h1 {color:#fff5df}.hero h1 em {color:#dfa47c}.hero p {color:#d2d8c7}.hero .eyebrow {color:#becaab}.hero .art-note {color:#dac4a3}
+.hero .creator-credit {color:#c2cdb5;font-size:12px;margin-top:18px;letter-spacing:.03em}
 [data-testid="stMetric"] {border-top:4px solid #293e30;box-shadow:0 3px 0 #dfdfd0}
 .stButton>button[kind="primary"] {background:#304a36;border-color:#304a36;box-shadow:0 3px 0 #1c3021}
 .stButton>button[kind="primary"]:hover {background:#425f3d;color:#fff9ed}
@@ -147,7 +148,7 @@ with st.sidebar:
     st.markdown('**AgentOps 2026 · 24 October**')
     st.caption('Transport / Retail and Supply\n\nSandbox only. No live maps, messaging, food-safety certification or delivery integration.')
 
-st.markdown('''<div class="hero"><div class="hero-copy"><span class="eyebrow">A SMALL DETOUR. A LITTLE MORE POSSIBILITY.</span><h1>Good food.<br><em>Another way home.</em></h1><p>A pickup fell through. Let’s find a thoughtful, checked replacement — and make sure everyone is on board.</p></div><div class="hero-art">
+st.markdown('''<div class="hero"><div class="hero-copy"><span class="eyebrow">A SMALL DETOUR. A LITTLE MORE POSSIBILITY.</span><h1>Good food.<br><em>Another way home.</em></h1><p>A pickup fell through. Let’s find a thoughtful, checked replacement — and make sure everyone is on board.</p><p class="creator-credit">Created by Shubham Parmar · ORIGINAL_anomaly</p></div><div class="hero-art">
 <svg viewBox="0 0 250 210" xmlns="http://www.w3.org/2000/svg" fill="none" aria-label="Line drawing of a food crate with vegetables and a winding route" role="img">
 <ellipse cx="128" cy="181" rx="90" ry="8" fill="#dedcc5"/>
 <path d="M14 143C-3 102 38 89 60 102S72 153 111 140 141 80 195 72" stroke="#acb08a" stroke-width="2" stroke-dasharray="4 6" stroke-linecap="round"/>
@@ -166,6 +167,7 @@ st.markdown('''<div class="hero"><div class="hero-copy"><span class="eyebrow">A 
 </svg><div class="art-note">a second chance, carefully carried</div></div></div>''',unsafe_allow_html=True)
 from reroute.evaluation_ui import render_evaluation
 render_evaluation(api_ready)
+st.caption('Designed and built by Shubham Parmar · ORIGINAL_anomaly · AgentOps 2026')
 if not rows:
     st.info('Start in the sidebar: ingest the Happy path cancellation. The complete demo needs no API key.')
     st.stop()
@@ -270,7 +272,10 @@ with audit:
         with st.expander(f"#{event['seq']} · v{event['version']} · {event['tool']}"):
             st.json(json.loads(event['detail']))
 with about:
-    st.markdown('''### A bounded agent, checked by code
+    st.markdown('''### Built by Shubham Parmar
+ReRoute by ORIGINAL_anomaly, created for AgentOps 2026 at MIT Bengaluru.
+
+### A bounded agent, checked by code
 The investigator reads the cancellation, inspects driver and recipient evidence, validates alternatives, and proposes a feasible plan. Rejection changes the next investigation: the failed party is excluded. If all options fail, the case escalates.
 
 **LLM mode:** a configured tool-capable model selects the investigation tools. It has no approval, reservation or confirmation tool. Timeouts, malformed calls and budgets stop the run for manual review.

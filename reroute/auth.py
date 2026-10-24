@@ -63,7 +63,7 @@ def gate(st, hosted):
                 st.rerun()
         return user
     if enabled or session.get('_show_login'):
-        st.markdown('<div class="login-banner"><span>REROUTE / DISPATCHER ACCESS</span><h1>Welcome back.</h1><p>A careful recovery starts with you.</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-banner"><span>REROUTE / DISPATCHER ACCESS</span><h1>Welcome back.</h1><p>A careful recovery starts with you.</p><p style="margin-top:20px;font-size:13px">Created by Shubham Parmar · ORIGINAL_anomaly</p></div>', unsafe_allow_html=True)
         _, middle, _ = st.columns([1, 1.4, 1])
         with middle:
             st.subheader('Sign in to the rescue desk')
