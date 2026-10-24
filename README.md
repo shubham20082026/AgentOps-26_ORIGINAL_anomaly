@@ -7,7 +7,7 @@
 
 [Live application](https://agentops2026sparmar.streamlit.app/) · [Architecture](ARCHITECTURE.md) · [Evaluation results](evaluation_report.json)
 
-Reviewer login credentials are provided privately in the project summary submitted through the AgentOps portal.
+### Reviewer access: Login credentials are provided privately in the project summary submitted through the AgentOps portal.
 
 ## Overview
 
