@@ -19,11 +19,11 @@ ReRoute implements a complete **synthetic cancelled-pickup recovery workflow** i
 | Recovery | Release failed holds, revise resource evidence, replan and require fresh approval |
 | Reporting | Display case status, constraint evidence, audit and downloadable JSON |
 
-The interface includes fresh demo controls, API connection checks, an evaluation lab, dark forest accents and optional single-dispatcher login. Configured login gates access and binds approvals to the signed-in account. No credentials means a public synthetic sandbox. See [LOGIN_SETUP.md](LOGIN_SETUP.md).
+The interface includes fresh demo controls, API connection checks, an evaluation lab, dark forest accents and optional configured dispatcher login. Configured login gates access and binds approvals to the signed-in account. No credentials means a public synthetic sandbox. See [LOGIN_SETUP.md](LOGIN_SETUP.md).
 
 ## Automated evidence
 
-The latest local suite passed **70 tests in 12.26 seconds** after the login and capacity-message fixes. Coverage includes the full UI workflow, stale approvals, shared-capacity conflicts, duplicate commands, expiry, release, persistence, model protocol, safe errors and authentication gating. Later creator-credit edits changed display text only and passed syntax checks.
+The latest local suite passed **72 tests in 36.51 seconds** after the login and capacity-message fixes. Coverage includes the full UI workflow, stale approvals, shared-capacity conflicts, duplicate commands, expiry, release, persistence, model protocol, safe errors and authentication gating. Later creator-credit edits changed display text only and passed syntax checks.
 
 Five deterministic stress checks passed: four simultaneous cases competing for capacity, ten repeated reservation commands, expiry with an injected clock, capacity-change invalidation and decline-driven replanning. This is limited synthetic concurrency evidence, not a production load test.
 

@@ -60,7 +60,7 @@ A separate **deterministic mode** exhaustively checks candidate pairs and select
 | State and audit | File-backed SQLite |
 | Reservation consistency | Transactions, shared-capacity accounting and unique case/version keys |
 | Human control | Approval bound to a case version and plan fingerprint |
-| Optional access gate | Single-dispatcher login with salted password hashing and expiring sessions |
+| Optional access gate | Up to two dispatcher accounts with salted password hashing and expiring sessions |
 | Validation | Automated workflow, concurrency, model-protocol, login and Streamlit interface tests |
 
 Version changes invalidate previous approval. Reservation commands are repeat-safe, and duplicate identical replies do not create additional bookings. Pending holds expire after 120 seconds. Confirmed allocations remain consumed until an operational completion workflow is implemented.
@@ -69,7 +69,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for state transitions, constraints and tr
 
 ## Evaluation and results
 
-The latest local automated suite passed **70 tests** on 24 October 2026. Coverage includes the complete interface workflow, stale approvals, competing reservations, repeated commands, expiry, persistence, model failure handling, login and the capacity-message regression.
+The latest local automated suite passed **72 tests** on 24 October 2026. Coverage includes the complete interface workflow, stale approvals, competing reservations, repeated commands, expiry, persistence, model failure handling, login and the capacity-message regression.
 
 For live investigation evaluation, I ran five trials per mode across six synthetic scenarios using identical inputs and isolated databases: **60 investigations in total**.
 
@@ -108,7 +108,7 @@ A pilot would measure actual dispatcher effort, time to confirmed booking, recov
 
 The design separates model judgment from permission to act. Deterministic checks validate feasibility, a dispatcher approves the exact plan, and both-party confirmation gates the reported booking outcome. The audit records evidence, decisions and failures for review.
 
-Optional configured login gates access to the workspace and uses the signed-in account for approval attribution. It supports one dispatcher account rather than role-based authorization or independent reviewer identities. Without login configuration, the application is an explicitly labeled public synthetic sandbox.
+Optional configured login gates access to the workspace and uses the signed-in account for approval attribution. It supports up to two separately configured dispatcher accounts with shared permissions, rather than role-based authorization or independent approval authority. Without login configuration, the application is an explicitly labeled public synthetic sandbox.
 
 Provider credentials are supplied through environment variables, Streamlit Secrets or locally encrypted Windows configuration. Private configuration and local databases are excluded from Git. The provider receives the case information and tool results required for investigation. The public demo should contain synthetic data only.
 

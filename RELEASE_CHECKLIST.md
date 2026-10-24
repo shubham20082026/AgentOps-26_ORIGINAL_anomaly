@@ -4,7 +4,7 @@ Updated 24 October 2026. Original forest-design app retained. No futuristic prev
 
 ## Checked locally
 
-- 70 automated tests passed in 12.26 seconds.
+- 72 automated tests passed in 36.51 seconds.
 - README shortened and judging documents aligned with current login and workflow.
 - Live LLM benchmark preserved: 30/30 correct, median 22.1 s, range 14.1–36.5 s. Five proposals and 25 escalations, not 30 rescues.
 - Local credentials and databases preserved outside the clean upload package.

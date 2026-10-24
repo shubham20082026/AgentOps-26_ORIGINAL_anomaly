@@ -1,6 +1,6 @@
 # Governance and Responsible AI
 
-ReRoute by **Shubham Parmar**, team **ORIGINAL_anomaly**. Status as of 24 October 2026: working synthetic sandbox with optional single-dispatcher login.
+ReRoute by **Shubham Parmar**, team **ORIGINAL_anomaly**. Status as of 24 October 2026: working synthetic sandbox with optional configured dispatcher login.
 
 ## Responsibility boundaries
 
@@ -19,7 +19,7 @@ Only tools whose prerequisites are met are advertised to the model. Execution en
 
 Optional configured login gates the workspace, database access, evaluation and API actions. Passwords use salted PBKDF2-SHA256 hashes with 600,000 iterations. The application has no default credentials. Sessions expire after one hour, credential changes invalidate sessions, and sign-out clears session state. Five sign-in attempts per server process per minute are allowed. Partial configuration blocks access until corrected. See [LOGIN_SETUP.md](LOGIN_SETUP.md).
 
-A signed-in approval uses the configured account name. This is **one dispatcher account**, not role-based access, individual multi-user identity, independent approval authority or tenant isolation. With no login configuration, the app remains an explicitly labeled public synthetic sandbox. Do not use it for sensitive operational data.
+A signed-in approval uses the configured account name. This is **up to two dispatcher accounts with shared permissions**, not role-based access, individual multi-user identity, independent approval authority or tenant isolation. With no login configuration, the app remains an explicitly labeled public synthetic sandbox. Do not use it for sensitive operational data.
 
 Provider keys come from environment variables, Streamlit Secrets or locally encrypted Windows DPAPI configuration. The application excludes private configuration, environment files and database files from Git. HTTPS-only API endpoints and refusal of redirects reduce accidental credential forwarding. Configure only trusted endpoints. See [SECURITY_CHECK.md](SECURITY_CHECK.md) for the recorded scan scope; this is not a guarantee about every possible historical or remote artifact.
 
@@ -42,7 +42,7 @@ The LLM loop is bounded to 18 rounds and 24 tool calls. A 180-second elapsed bud
 
 ## Evidence and remaining gaps
 
-The latest local automated suite passed **70 tests**, including login, logout, expiry, partial-configuration blocking and throttling alongside workflow tests. Repeated live LLM results and a decline/replan check are documented in [MVPreadiness.md](MVPreadiness.md). These checks do not establish production security or operational reliability.
+The latest local automated suite passed **72 tests**, including login, logout, expiry, partial-configuration blocking and throttling alongside workflow tests. Repeated live LLM results and a decline/replan check are documented in [MVPreadiness.md](MVPreadiness.md). These checks do not establish production security or operational reliability.
 
 Before operational use, add an identity provider, server-side role authorization, authenticated external replies, protected durable audit storage, tenant isolation, retention controls and security testing. Community Cloud rebuilds may discard local SQLite files. Food-safety handling booleans require replacement with verified evidence.
 

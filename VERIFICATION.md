@@ -1,3 +1,7 @@
+# Two-account login verification — 24 October 2026
+
+72 tests passed in 36.51 seconds. Both configured accounts sign in and approve using their own identity. Invalid or duplicate second-account configuration blocks access. Both accounts share dispatcher permissions and workspace data.
+
 # Final submission check — 24 October 2026
 
 **70 tests passed in 12.26 seconds** in the original forest-design project. This includes the complete Streamlit workflow, login/logout/expiry, failure handling, reservations and a regression verifying that the competing-booking hint appears only for actual other active allocations. Creator-credit and styling changes are included. No new live-provider benchmark was run during this final check. The 30/30 repeated LLM results below remain the recorded earlier experiment. Hosted commit parity is unverified.

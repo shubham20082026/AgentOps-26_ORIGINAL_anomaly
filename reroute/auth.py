@@ -1,4 +1,4 @@
-"""Optional single-dispatcher access gate. No default credentials."""
+"""Optional dispatcher access gate with two configured accounts. No default credentials."""
 import hashlib
 import hmac
 import os
@@ -40,6 +40,20 @@ def settings(hosted):
     fingerprint = hashlib.sha256((user+'\0'+encoded).encode()).hexdigest()
     return user, encoded, enabled, ready, fingerprint
 
+
+def accounts(hosted):
+    user, encoded, enabled, ready, fingerprint = settings(hosted)
+    second_user = str(os.environ.get('REROUTE_LOGIN_USER_2', hosted.get('REROUTE_LOGIN_USER_2', ''))).strip()
+    second_hash = str(os.environ.get('REROUTE_LOGIN_HASH_2', hosted.get('REROUTE_LOGIN_HASH_2', '')))
+    values = {user: encoded} if ready else {}
+    if second_user or second_hash:
+        enabled = True
+        ready = bool(ready and second_user and valid_hash(second_hash) and second_user != user)
+        if ready:
+            values[second_user] = second_hash
+        fingerprint = hashlib.sha256((fingerprint+'\0'+second_user+'\0'+second_hash).encode()).hexdigest()
+    return values, enabled, ready, fingerprint
+
 def login_allowed():
     """Process-wide throttle survives browser session resets, but not server restarts."""
     now = time.monotonic()
@@ -51,10 +65,11 @@ def login_allowed():
         return True
 
 def gate(st, hosted):
-    user, encoded, enabled, ready, fingerprint = settings(hosted)
+    users, enabled, ready, fingerprint = accounts(hosted)
     session = st.session_state
+    user = session.get('_login_user', '')
     authenticated = (session.get('_login_fingerprint') == fingerprint
-                     and time.time() < session.get('_login_until', 0) and ready)
+                     and time.time() < session.get('_login_until', 0) and ready and user in users)
     if authenticated:
         with st.sidebar:
             st.caption('Signed in as '+user)
@@ -81,14 +96,16 @@ def gate(st, hosted):
                     if not login_allowed():
                         st.error('Too many sign-in attempts. Wait one minute and try again.')
                     else:
+                        encoded = users.get(entered_user, next(iter(users.values())))
                         password_ok = verify(password, encoded)
-                        if hmac.compare_digest(entered_user.encode(), user.encode()) and password_ok:
+                        if entered_user in users and password_ok:
                             session.clear()
+                            session['_login_user'] = entered_user
                             session['_login_fingerprint'] = fingerprint
                             session['_login_until'] = time.time()+3600
                             st.rerun()
                         st.error('Username or password is incorrect.')
-                st.caption('Sessions expire after one hour. This sandbox uses one dispatcher account.')
+                st.caption('Sessions expire after one hour. Configured accounts share the dispatcher workspace.')
         st.stop()
     with st.sidebar:
         st.caption('Public synthetic sandbox')

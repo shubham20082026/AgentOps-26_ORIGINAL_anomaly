@@ -14,4 +14,15 @@ Save and reboot the app. Test sign-in and sign-out in a private browser. Never p
 
 Configured login gates the workspace, data, evaluation and provider calls before opening the database. Approvals use the signed-in account name. Sessions expire after one hour, reloads may require a new login, credential changes invalidate existing sessions, and sign-out clears session state. Five attempts per process per minute are allowed, shared across users. This can briefly block legitimate users and does not replace an identity provider or distributed rate limiting.
 
-This is one dispatcher account, not role-based access, tenant isolation, multi-user account management or independent reviewer authorization. Local SQLite and audit protection limitations remain. Use OIDC and server-side authorization before operational deployment.
+Up to two separately configured dispatcher accounts are supported. This does not provide role-based access, tenant isolation, self-service account management or independent reviewer authorization. Local SQLite and audit protection limitations remain. Use OIDC and server-side authorization before operational deployment.
+
+## Optional second account
+
+Keep the existing `REROUTE_LOGIN_USER` and `REROUTE_LOGIN_HASH` for the owner. Add a second distinct username and independently generated hash:
+
+```toml
+REROUTE_LOGIN_USER_2 = "reviewer-name"
+REROUTE_LOGIN_HASH_2 = "paste-the-second-generated-hash-here"
+```
+
+Keep every setting unique. Save Secrets, push the updated `reroute/auth.py`, then reboot. Both accounts share dispatcher permissions and workspace data. Approvals use the actual signed-in username. This is separate account authentication, not role-based access or separate tenants. A partial, invalid or duplicate second account blocks login until corrected. Existing one-account configuration remains supported.
