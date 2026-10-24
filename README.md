@@ -7,6 +7,8 @@
 
 [Live application](https://agentops2026sparmar.streamlit.app/) · [Architecture](ARCHITECTURE.md) · [Evaluation results](evaluation_report.json)
 
+Reviewer login credentials are provided privately in the project summary submitted through the AgentOps portal.
+
 ## Overview
 
 I built ReRoute to address a specific coordination problem in food rescue: a volunteer cancels a pickup after the donation has already been packed. The dispatcher must find a replacement quickly, but a driver match alone is insufficient. The whole donation must fit, the driver must meet the handling requirements, and the recipient must be able to receive it before both the food deadline and its receiving window close.
