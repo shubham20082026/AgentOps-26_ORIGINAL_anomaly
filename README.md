@@ -4,6 +4,10 @@ AgentOps 2026 · 24 October 2026 · Team **ORIGINAL_anomaly** · **Shubham Parma
 
 Domain: Transport / Retail and Supply. ReRoute recovers a cancelled food pickup using a bounded investigation loop, deterministic feasibility checks, human approval and verified sandbox bookings.
 
+## Interface and dispatcher login
+
+Dark forest accents now frame the workspace. Optional single-dispatcher login gates the entire app when configured. See [LOGIN_SETUP.md](LOGIN_SETUP.md) to generate a password hash and configure Streamlit Secrets. Without login configuration, the app remains a public synthetic sandbox. This does not implement RBAC or tenant isolation.
+
 ## Live demo
 
 **[Launch ReRoute ↗](https://agentops2026sparmar.streamlit.app/)**
@@ -15,13 +19,13 @@ Try the food-pickup recovery workflow with synthetic scenarios, human approval, 
 **Status:** working hackathon sandbox prototype. The full investigation, approval,
 reservation and both-party confirmation workflow is implemented. Driver and
 recipient replies, travel times and availability are simulated. Real maps,
-messaging, authentication and split deliveries are outside the current scope.
+messaging, production role-based authorization and split deliveries are outside the current scope.
 
 ### Status and evidence
 
 The complete sandbox workflow, fresh-demo controls, API connection check, evaluation lab, version-specific approval and both-party verification are implemented. The full suite now has **65 passing tests**, including LLM policy, batching, pacing and failure-display regressions. The working-app deck reports the earlier 52-test suite; its single-trial results are historical observations. Current validation is in [VERIFICATION.md](VERIFICATION.md).
 
-The app still uses synthetic travel, resources, handling evidence and replies. There is no live delivery integration, authentication, donation splitting or guaranteed durable cloud database. LLM reliability is limited by provider/model behavior: see the repeated results below. GitHub Actions runs the full suite without live credentials.
+The app still uses synthetic travel, resources, handling evidence and replies. There is no live delivery integration, production role-based authorization, donation splitting or guaranteed durable cloud database. LLM reliability is limited by provider/model behavior: see the repeated results below. GitHub Actions runs the full suite without live credentials.
 
 ## Repaired LLM evaluation — 24 October 2026
 
@@ -74,7 +78,7 @@ See [BUSINESS_VALUE.md](BUSINESS_VALUE.md) for the slide-aligned **measured / as
 
 The model investigates and proposes; it cannot approve, reserve or confirm. Deterministic checks enforce feasibility, approvals bind an exact version and fingerprint, failed holds release capacity, and the audit records evidence and failure reasons. Provider errors stop for manual review; fallback is an explicit operator choice. See [ARCHITECTURE.md](ARCHITECTURE.md).
 
-**Roles gap:** dispatcher names are attribution, not authenticated identity or authorization. The hosted sandbox has no tenant isolation or production RBAC; its database owner can edit the audit. Before operational use, add authenticated dispatcher/reviewer/admin roles, server-side permission checks, separation of approval authority, protected durable audit storage, authenticated replies, retention controls and access-control tests. Do not submit personal recipient data to this public demo.
+**Roles gap:** optional configured login authenticates one dispatcher account and binds approvals to it. Public-mode names remain attribution only. Neither mode provides roles or separate approval authority. The hosted sandbox has no tenant isolation or production RBAC; its database owner can edit the audit. Before operational use, add authenticated dispatcher/reviewer/admin roles, server-side permission checks, separation of approval authority, protected durable audit storage, authenticated replies, retention controls and access-control tests. Do not submit personal recipient data to this public demo.
 
 ## Deployment and source version
 
@@ -187,7 +191,7 @@ Fixture times are frozen at 14:00; they are not today's current time. Reservatio
 
 ## Scope and next steps
 
-This is a local single-dispatcher sandbox. Dispatcher names are attribution, not authenticated identity. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, user authentication, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
+This is a local single-dispatcher sandbox. Public-mode dispatcher names are attribution only. Configured login authenticates one dispatcher account. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, multi-user authentication and roles, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
 
 Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` 
 

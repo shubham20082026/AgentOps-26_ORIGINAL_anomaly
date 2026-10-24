@@ -53,11 +53,40 @@ h3 {font-size:1.55rem!important} p {line-height:1.65}
 hr {border-color:#d3d4bd!important}
 @media(max-width:900px) {.hero-art {width:150px}.hero h1 {font-size:2.8rem}.hero p {font-size:14px}}
 @media(max-width:600px) {.hero-art {display:none}.hero h1 {font-size:2.8rem}[data-testid="stMainBlockContainer"] {padding:2rem 1rem}}
+
+/* Dark forest accents keep the warm workspace readable. */
+[data-testid="stSidebar"] button p {color:inherit!important}
+[data-testid="stSidebar"] {background:#202c29;border-right:1px solid #36453e;color:#f2ecdf}
+[data-testid="stSidebar"] p,[data-testid="stSidebar"] label,[data-testid="stSidebar"] [data-testid="stCaptionContainer"], [data-testid="stSidebar"] .desk-note {color:#c6cebd!important}
+[data-testid="stSidebar"] .desk-brand {color:#fff5df}
+[data-testid="stSidebar"] .desk-brand span {color:#e4a878}
+[data-testid="stSidebar"] .desk-label {color:#aab99b}
+[data-testid="stSidebar"] hr {border-color:#46544a!important}
+[data-testid="stSidebar"] [data-testid="stExpander"] {background:#2d3b34;border-color:#4c5b4e;color:#f6efdf}
+[data-testid="stSidebar"] .stButton>button {background:#34463b!important;color:#f5efdf!important;border-color:#5a6b56;box-shadow:none}
+[data-testid="stSidebar"] .stButton>button:hover {background:#455e48;border-color:#c29b72;color:white}
+[data-testid="stSidebar"] [data-baseweb="select"]>div {background:#f6f0e4!important;color:#24372b!important}
+.hero {background:#27382e;border:1px solid #354a3a;border-radius:16px;padding:30px 34px;margin-bottom:26px}
+.hero h1 {color:#fff5df}.hero h1 em {color:#dfa47c}.hero p {color:#d2d8c7}.hero .eyebrow {color:#becaab}.hero .art-note {color:#dac4a3}
+[data-testid="stMetric"] {border-top:4px solid #293e30;box-shadow:0 3px 0 #dfdfd0}
+.stButton>button[kind="primary"] {background:#304a36;border-color:#304a36;box-shadow:0 3px 0 #1c3021}
+.stButton>button[kind="primary"]:hover {background:#425f3d;color:#fff9ed}
+[data-testid="stTabs"] [aria-selected="true"] {color:#294a32}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {background:#294a32}
+.login-banner {background:#23372b;color:#eee9d9;padding:44px;border-radius:18px;margin:15px 0 36px}
+.login-banner > span {font-size:11px;letter-spacing:.18em;color:#b8c4a4}
+.login-banner h1 {color:#fff2d8;font-size:3.6rem;margin:16px 0 8px}
+.login-banner p {color:#cfdbc4;margin:0}
+@media(max-width:600px){.hero {padding:24px 20px}.login-banner {padding:28px}}
+
 </style>''',unsafe_allow_html=True)
 try:
-    set_hosted_secrets(dict(st.secrets))
+    hosted_secrets=dict(st.secrets)
 except FileNotFoundError:
-    set_hosted_secrets({})
+    hosted_secrets={}
+set_hosted_secrets(hosted_secrets)
+from reroute.auth import gate
+signed_in_user=gate(st, hosted_secrets)
 store=Store(st.session_state.get('demo_db', database_path()))
 
 def action(fn):
@@ -188,7 +217,8 @@ with ops:
             st.markdown(f"### {plan['driver']} → Campus pickup → {plan['recipient']}")
             st.write(f"Carry **{plan['boxes']} boxes** · Fixture arrival **{hhmm(plan['arrival'])}** · Deadline slack **{data['deadline']-plan['arrival']} minutes**")
             st.caption(f"Approval binds version {c['version']} and plan fingerprint {plan['fingerprint'][:16]}…")
-            actor=st.text_input('Dispatcher approving this plan',placeholder='Enter your name',key=f'actor-{cid}')
+            actor=signed_in_user or st.text_input('Dispatcher approving this plan',placeholder='Enter your name',key=f'actor-{cid}')
+            if signed_in_user: st.caption('Approval identity: '+signed_in_user)
             reviewed=st.checkbox('I reviewed capacity, handling evidence, arrival and receiving window.',key=f'review-{cid}-{c["version"]}')
             if st.button('Approve this version',disabled=c['status']!='PROPOSED' or not reviewed or not actor.strip()):
                 action(lambda:store.approve(cid,c['version'],plan['fingerprint'],actor))
