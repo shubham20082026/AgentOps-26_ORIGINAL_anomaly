@@ -80,6 +80,34 @@ hr {border-color:#d3d4bd!important}
 .login-banner p {color:#cfdbc4;margin:0}
 @media(max-width:600px){.hero {padding:24px 20px}.login-banner {padding:28px}}
 
+
+/* Streamlit may nest buttons inside extra wrappers. Target the button itself. */
+[data-testid="stSidebar"] button[data-testid^="stBaseButton"],
+[data-testid="stSidebar"] .stButton button {
+    background-color:#34463b!important;
+    background-image:none!important;
+    color:#fff8e8!important;
+    border:1px solid #71856b!important;
+    box-shadow:none!important;
+}
+[data-testid="stSidebar"] button[data-testid^="stBaseButton"] p,
+[data-testid="stSidebar"] button[data-testid^="stBaseButton"] span,
+[data-testid="stSidebar"] .stButton button p,
+[data-testid="stSidebar"] .stButton button span {
+    color:#fff8e8!important;
+    -webkit-text-fill-color:#fff8e8!important;
+    opacity:1!important;
+}
+[data-testid="stSidebar"] button[data-testid^="stBaseButton"]:hover,
+[data-testid="stSidebar"] .stButton button:hover {
+    background-color:#455e48!important;
+    border-color:#c8d6b8!important;
+}
+[data-testid="stSidebar"] button[data-testid^="stBaseButton"]:focus-visible {
+    outline:2px solid #e5bd8a!important;
+    outline-offset:3px;
+}
+
 </style>''',unsafe_allow_html=True)
 try:
     hosted_secrets=dict(st.secrets)
