@@ -209,3 +209,13 @@ class Store:
         with self.tx() as db:
             self._expire(db)
             return [dict(r) for r in db.execute('SELECT * FROM holds WHERE case_id=? ORDER BY rowid',(cid,))]
+
+    def competing_allocations(self, cid):
+        """Current allocations in other cases sharing this case's resources."""
+        with self.tx() as db:
+            self._expire(db)
+            c = self._get(db, cid)
+            drivers = {d['id'] for d in c['data']['drivers']}
+            recipients = {r['id'] for r in c['data']['recipients']}
+            rows = db.execute("SELECT * FROM holds WHERE case_id<>? AND status IN ('HELD','CONFIRMED')", (cid,)).fetchall()
+            return [dict(h) for h in rows if h['driver'] in drivers or h['recipient'] in recipients]

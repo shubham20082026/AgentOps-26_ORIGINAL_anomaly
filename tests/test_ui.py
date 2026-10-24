@@ -80,4 +80,30 @@ def test_ui_retains_specific_quota_reason_after_rerun(tmp_path,monkeypatch):
     click(at,'Run recovery investigation')
     click(at,'Refresh / check hold expiry')
     assert any('Quota:' in e.value for e in at.error)
+    assert not any('Other cases in this demo' in e.value or 'earlier bookings' in e.value for e in at.info)
     assert any(m.value=='Escalated' for m in at.metric)
+
+
+def test_capacity_hint_only_for_other_active_bookings(tmp_path,monkeypatch):
+    from reroute.engine import Store
+    from reroute.fixtures import fixture
+    from reroute.agent import investigate
+    db=tmp_path/'capacity-hint.db'
+    monkeypatch.setenv('REROUTE_DB',str(db))
+    store=Store(db)
+    first=store.ingest(fixture('Happy path'))
+    investigate(store,first,'deterministic')
+    c=store.get(first)
+    store.approve(first,c['version'],c['plan']['fingerprint'],'Dispatcher')
+    store.reserve(first,c['version'],c['plan']['fingerprint'])
+    store.reply(first,c['version'],'driver','accept')
+    store.reply(first,c['version'],'recipient','accept')
+    at=AppTest.from_file(str(APP)).run(timeout=60)
+    click(at,'Ingest cancellation'); click(at,'Run recovery investigation')
+    assert any('Other cases in this demo' in e.value for e in at.info)
+    click(at,'Start fresh demo')
+    next(w for w in at.selectbox if w.label=='Synthetic scenario').set_value('No capacity').run(timeout=60)
+    click(at,'Ingest cancellation'); click(at,'Run recovery investigation')
+    assert any(m.value=='Escalated' for m in at.metric)
+    assert not any('Other cases in this demo' in e.value for e in at.info)
+    assert not any('earlier bookings' in e.value for e in at.info)

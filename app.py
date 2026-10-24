@@ -208,7 +208,10 @@ with ops:
             else:
                 reasons=[json.loads(e['detail']).get('reason') for e in reversed(case_events) if e['tool'] in ('escalate','release_and_escalate')]
                 st.warning(next((r for r in reasons if r), 'Investigation stopped. Review evidence and retry.'))
-            st.info('If this is a repeated demo, earlier bookings may consume capacity. Choose Start fresh demo for an isolated run.')
+            competing=store.competing_allocations(cid)
+            if competing:
+                boxes=sum(h['boxes'] for h in competing)
+                st.info(f'Other cases in this demo hold or have confirmed {boxes} boxes on shared resources. This may reduce available capacity. Choose Start fresh demo for an isolated run.')
         with st.expander('Investigation decisions and evidence'):
             for e in latest:
                 if e['tool'] in ('read_case','inspect_driver','inspect_recipient','validate_pair','propose','escalate','tool_rejected'):
