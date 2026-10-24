@@ -119,10 +119,6 @@ Run the repeatable tests:
 
 Core tests use temporary SQLite files and never modify demo data. `tests/test_ui.py` also exercises the Streamlit workflow.
 
-## What to demonstrate
-
-See **DEMO_SCRIPT.md** for the 4-minute judge walkthrough, failure demonstrations and questions. See **ARCHITECTURE.md** for state transitions, tool permissions and transaction guarantees. See **VERIFICATION.md** for measured local results and limitations.
-
 ## Optional real LLM tool selection
 
 ### Secure Windows setup (recommended)
