@@ -31,10 +31,12 @@ def compare(repeats=1, include_llm=False, scenario='Happy path', transport=None)
                 expected='PROPOSED' if scenario=='Happy path' else 'ESCALATED'
                 rows.append(dict(mode=mode,trial=trial+1,scenario=scenario,seconds=round(elapsed,4),
                     status=case['status'],correct=not failure and case['status']==expected,
-                    failed=failure,failure_details=failures[-1] if failures else None,under_30_seconds=elapsed<30,
+                    failed=failure,failure_details=failures[-1] if failures else None,under_30_seconds=not failure and case['status']==expected and elapsed<30,
                     tool_calls=sum(e['tool'] in TOOL_NAMES and 'arguments' in json.loads(e['detail']) for e in events),
                     validations=sum(e['tool']=='validate_constraints' for e in events),
-                    trace=[dict(tool=e['tool'],detail=json.loads(e['detail'])) for e in events if e['tool'] in TOOL_NAMES]))
+                    model_requests=sum(e['tool']=='model_response' for e in events),
+                    rejected_tools=sum(e['tool']=='tool_rejected' for e in events),
+                    trace=[dict(tool=e['tool'],detail=json.loads(e['detail'])) for e in events if e['tool'] in TOOL_NAMES or e['tool'] in ('model_response','tool_rejected','agent_failed')]))
     summary=[]
     for mode in dict.fromkeys(r['mode'] for r in rows):
         group=[r for r in rows if r['mode']==mode]

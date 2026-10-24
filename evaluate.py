@@ -35,9 +35,9 @@ def main():
     report=dict(schema_version=2,status='running',started_at=datetime.now(timezone.utc).isoformat(),
         source_commit=build_revision(),model=api_settings()['model'] if args.include_llm else None,
         trials_per_mode_per_scenario=args.repeats,scenario_count=len(SCENARIOS),runs=[],summary=[],
-        code_sha256={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in ['reroute/agent.py','reroute/engine.py','reroute/evaluation.py','reroute/fixtures.py']},
+        code_sha256={n:hashlib.sha256((root/n).read_bytes()).hexdigest() for n in ['reroute/agent.py','reroute/engine.py','reroute/evaluation.py','reroute/fixtures.py','reroute/config.py']},
         notes=['Identical synthetic inputs and isolated temporary databases. Approval time excluded.',
-               'Serial trials without automatic retries or quota pacing. All attempts remain in the report.',
+               'Serial trials without automatic retries. Gemini requests use a 4.1-second per-process interval by default; latency includes this pacing. All attempts remain in the report.',
                'Fast failures are not successful recoveries. Repeat after provider quota resets when necessary.'])
     output=Path(args.output)
     def save():

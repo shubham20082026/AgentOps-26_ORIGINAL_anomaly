@@ -81,6 +81,7 @@ def api_settings():
     return {
         'key': key or saved.get('key'),
         'model': values.get('REROUTE_MODEL') or saved.get('model'),
+        'min_interval': values.get('REROUTE_MIN_REQUEST_INTERVAL'),
         'url': validate_endpoint(values.get('REROUTE_API_URL') or saved.get('url') or 'https://api.openai.com/v1/chat/completions'),
     }
 

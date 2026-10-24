@@ -1,0 +1,551 @@
+{
+  "scenario": "Live LLM decline-driven replanning and both-party confirmation",
+  "model": "gemini-3.5-flash-lite",
+  "initial_driver": "D3",
+  "replanned_driver": "D2",
+  "fresh_approval_required": true,
+  "deterministic_fallback_disabled": true,
+  "final_status": "CONFIRMED",
+  "live_llm_investigations": 2,
+  "provider_or_controller_failures": 0,
+  "case": {
+    "id": "RR-917518CA",
+    "version": 3,
+    "status": "CONFIRMED",
+    "data": {
+      "id": "RR-917518CA",
+      "boxes": 24,
+      "pickup": 840,
+      "deadline": 870,
+      "donor": "Campus dining hall",
+      "cancellation": "Original volunteer cancelled at 14:00. Recover all 24 packed boxes.",
+      "handling": "sealed ambient meals",
+      "recipients": [
+        {
+          "id": "A",
+          "name": "Recipient A",
+          "capacity": 8,
+          "opens": 840,
+          "closes": 900,
+          "handling": true,
+          "accepting": true
+        },
+        {
+          "id": "B",
+          "name": "Recipient B",
+          "capacity": 30,
+          "opens": 840,
+          "closes": 900,
+          "handling": true,
+          "accepting": true
+        }
+      ],
+      "drivers": [
+        {
+          "id": "D1",
+          "name": "Driver 1",
+          "capacity": 30,
+          "available": false,
+          "handling": true,
+          "travel": 12
+        },
+        {
+          "id": "D2",
+          "name": "Driver 2",
+          "capacity": 30,
+          "available": true,
+          "handling": true,
+          "travel": 22
+        },
+        {
+          "id": "D3",
+          "name": "Driver 3",
+          "capacity": 30,
+          "available": false,
+          "handling": true,
+          "travel": 18
+        }
+      ],
+      "replies": {
+        "driver": "decline",
+        "recipient": "accept"
+      },
+      "scenario": "Recovery with alternate"
+    },
+    "plan": {
+      "driver": "D2",
+      "recipient": "B",
+      "arrival": 862,
+      "boxes": 24,
+      "valid": true,
+      "reasons": [],
+      "fingerprint": "ffbc23e2078acdeee39937f842f701b82a9a458a561128a6b1c0c606a1772531"
+    },
+    "approval": {
+      "actor": "Repair verification dispatcher",
+      "version": 3,
+      "fingerprint": "ffbc23e2078acdeee39937f842f701b82a9a458a561128a6b1c0c606a1772531",
+      "at": 1792815647.3112075
+    }
+  },
+  "holds": [
+    {
+      "id": "b7400c8847124753a616d94034962b8c",
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "driver": "D3",
+      "recipient": "B",
+      "boxes": 24,
+      "expires": 1792815750.9585836,
+      "status": "RELEASED",
+      "driver_reply": "decline",
+      "recipient_reply": null
+    },
+    {
+      "id": "25a0055cc7bc4c42ae93b117b07e60fb",
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "driver": "D2",
+      "recipient": "B",
+      "boxes": 24,
+      "expires": 1792815767.320227,
+      "status": "CONFIRMED",
+      "driver_reply": "accept",
+      "recipient_reply": "accept"
+    }
+  ],
+  "audit": [
+    {
+      "seq": 1,
+      "at": 1792815617.3983305,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "ingest_cancellation",
+      "detail": "{\"boxes\": 24, \"cancellation\": \"Original volunteer cancelled at 14:00. Recover all 24 packed boxes.\", \"deadline\": 870, \"donor\": \"Campus dining hall\", \"drivers\": [{\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D1\", \"name\": \"Driver 1\", \"travel\": 12}, {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D2\", \"name\": \"Driver 2\", \"travel\": 22}, {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D3\", \"name\": \"Driver 3\", \"travel\": 18}], \"handling\": \"sealed ambient meals\", \"id\": \"RR-917518CA\", \"pickup\": 840, \"recipients\": [{\"accepting\": true, \"capacity\": 8, \"closes\": 900, \"handling\": true, \"id\": \"A\", \"name\": \"Recipient A\", \"opens\": 840}, {\"accepting\": true, \"capacity\": 30, \"closes\": 900, \"handling\": true, \"id\": \"B\", \"name\": \"Recipient B\", \"opens\": 840}], \"replies\": {\"driver\": \"decline\", \"recipient\": \"accept\"}, \"scenario\": \"Recovery with alternate\"}"
+    },
+    {
+      "seq": 2,
+      "at": 1792815617.402909,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "agent_started",
+      "detail": "{\"mode\": \"llm\"}"
+    },
+    {
+      "seq": 3,
+      "at": 1792815618.7497458,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"read_case\"], \"round\": 1, \"tool_calls\": 1}"
+    },
+    {
+      "seq": 4,
+      "at": 1792815618.8070517,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "read_case",
+      "detail": "{\"arguments\": {}, \"result\": {\"boxes\": 24, \"cancellation\": \"Original volunteer cancelled at 14:00. Recover all 24 packed boxes.\", \"deadline\": 870, \"drivers\": [\"D1\", \"D2\", \"D3\"], \"handling\": \"sealed ambient meals\", \"pickup\": 840, \"recipients\": [\"A\", \"B\"]}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 5,
+      "at": 1792815622.948033,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"inspect_driver\", \"inspect_recipient\"], \"round\": 2, \"tool_calls\": 5}"
+    },
+    {
+      "seq": 6,
+      "at": 1792815622.9807837,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D1\"}, \"result\": {\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D1\", \"name\": \"Driver 1\", \"travel\": 12}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 7,
+      "at": 1792815622.9888709,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D2\"}, \"result\": {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D2\", \"name\": \"Driver 2\", \"travel\": 22}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 8,
+      "at": 1792815622.9930813,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D3\"}, \"result\": {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D3\", \"name\": \"Driver 3\", \"travel\": 18}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 9,
+      "at": 1792815622.9958026,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "inspect_recipient",
+      "detail": "{\"arguments\": {\"recipient\": \"A\"}, \"result\": {\"accepting\": true, \"capacity\": 8, \"closes\": 900, \"handling\": true, \"id\": \"A\", \"name\": \"Recipient A\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 10,
+      "at": 1792815622.9978204,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "inspect_recipient",
+      "detail": "{\"arguments\": {\"recipient\": \"B\"}, \"result\": {\"accepting\": true, \"capacity\": 30, \"closes\": 900, \"handling\": true, \"id\": \"B\", \"name\": \"Recipient B\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 11,
+      "at": 1792815627.053703,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"validate_pair\"], \"round\": 3, \"tool_calls\": 4}"
+    },
+    {
+      "seq": 12,
+      "at": 1792815627.0617166,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}"
+    },
+    {
+      "seq": 13,
+      "at": 1792815627.065147,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_pair",
+      "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"A\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 14,
+      "at": 1792815627.0705981,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 15,
+      "at": 1792815627.0731702,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_pair",
+      "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 16,
+      "at": 1792815627.0764756,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}"
+    },
+    {
+      "seq": 17,
+      "at": 1792815627.0787256,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_pair",
+      "detail": "{\"arguments\": {\"driver\": \"D3\", \"recipient\": \"A\"}, \"result\": {\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [\"Insufficient recipient capacity\"], \"recipient\": \"A\", \"valid\": false}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 18,
+      "at": 1792815627.0817304,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 19,
+      "at": 1792815627.08419,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_pair",
+      "detail": "{\"arguments\": {\"driver\": \"D3\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 20,
+      "at": 1792815630.8844647,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"validate_pair\", \"propose\"], \"round\": 4, \"tool_calls\": 1}"
+    },
+    {
+      "seq": 21,
+      "at": 1792815630.9230177,
+      "case_id": "RR-917518CA",
+      "version": 1,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 22,
+      "at": 1792815630.925019,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "propose_plan",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"fingerprint\": \"e3d6cc2a2037e41ceb8596dac1bc2a6d18131eb3911a776c917ba7cc3d5745b2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 23,
+      "at": 1792815630.9330766,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "propose",
+      "detail": "{\"arguments\": {\"driver\": \"D3\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"fingerprint\": \"e3d6cc2a2037e41ceb8596dac1bc2a6d18131eb3911a776c917ba7cc3d5745b2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 24,
+      "at": 1792815630.941084,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "agent_completed",
+      "detail": "{\"elapsed_seconds\": 13.532, \"mode\": \"llm\"}"
+    },
+    {
+      "seq": 25,
+      "at": 1792815630.9510798,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 26,
+      "at": 1792815630.9530857,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "human_approval",
+      "detail": "{\"actor\": \"Repair verification dispatcher\", \"at\": 1792815630.9530857, \"fingerprint\": \"e3d6cc2a2037e41ceb8596dac1bc2a6d18131eb3911a776c917ba7cc3d5745b2\", \"version\": 2}"
+    },
+    {
+      "seq": 27,
+      "at": 1792815630.9580781,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 858, \"boxes\": 24, \"driver\": \"D3\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 28,
+      "at": 1792815630.9585836,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "reserve_capacity",
+      "detail": "{\"hold\": \"b7400c8847124753a616d94034962b8c\", \"simulated_transport\": true, \"ttl_seconds\": 120}"
+    },
+    {
+      "seq": 29,
+      "at": 1792815630.9660475,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "simulated_driver_reply",
+      "detail": "{\"hold\": \"b7400c8847124753a616d94034962b8c\", \"response\": \"decline\"}"
+    },
+    {
+      "seq": 30,
+      "at": 1792815630.9660475,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "release_and_escalate",
+      "detail": "{\"hold\": \"b7400c8847124753a616d94034962b8c\", \"reason\": \"driver decline\"}"
+    },
+    {
+      "seq": 31,
+      "at": 1792815630.9700434,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "agent_started",
+      "detail": "{\"mode\": \"llm\"}"
+    },
+    {
+      "seq": 32,
+      "at": 1792815634.8778307,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"read_case\"], \"round\": 1, \"tool_calls\": 1}"
+    },
+    {
+      "seq": 33,
+      "at": 1792815634.885756,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "read_case",
+      "detail": "{\"arguments\": {}, \"result\": {\"boxes\": 24, \"cancellation\": \"Original volunteer cancelled at 14:00. Recover all 24 packed boxes.\", \"deadline\": 870, \"drivers\": [\"D1\", \"D2\", \"D3\"], \"handling\": \"sealed ambient meals\", \"pickup\": 840, \"recipients\": [\"A\", \"B\"]}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 34,
+      "at": 1792815639.3390546,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"inspect_driver\", \"inspect_recipient\"], \"round\": 2, \"tool_calls\": 5}"
+    },
+    {
+      "seq": 35,
+      "at": 1792815639.3765197,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D1\"}, \"result\": {\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D1\", \"name\": \"Driver 1\", \"travel\": 12}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 36,
+      "at": 1792815639.3870292,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D2\"}, \"result\": {\"available\": true, \"capacity\": 30, \"handling\": true, \"id\": \"D2\", \"name\": \"Driver 2\", \"travel\": 22}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 37,
+      "at": 1792815639.3960419,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "inspect_driver",
+      "detail": "{\"arguments\": {\"driver\": \"D3\"}, \"result\": {\"available\": false, \"capacity\": 30, \"handling\": true, \"id\": \"D3\", \"name\": \"Driver 3\", \"travel\": 18}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 38,
+      "at": 1792815639.4060462,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "inspect_recipient",
+      "detail": "{\"arguments\": {\"recipient\": \"A\"}, \"result\": {\"accepting\": true, \"capacity\": 8, \"closes\": 900, \"handling\": true, \"id\": \"A\", \"name\": \"Recipient A\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 39,
+      "at": 1792815639.4140472,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "inspect_recipient",
+      "detail": "{\"arguments\": {\"recipient\": \"B\"}, \"result\": {\"accepting\": true, \"capacity\": 30, \"closes\": 900, \"handling\": true, \"id\": \"B\", \"name\": \"Recipient B\", \"opens\": 840}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 40,
+      "at": 1792815643.1478724,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"validate_pair\"], \"round\": 3, \"tool_calls\": 1}"
+    },
+    {
+      "seq": 41,
+      "at": 1792815643.1551855,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 42,
+      "at": 1792815643.1601923,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "validate_pair",
+      "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 43,
+      "at": 1792815647.2699096,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "model_response",
+      "detail": "{\"allowed_tools\": [\"validate_pair\", \"propose\"], \"round\": 4, \"tool_calls\": 1}"
+    },
+    {
+      "seq": 44,
+      "at": 1792815647.2789073,
+      "case_id": "RR-917518CA",
+      "version": 2,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 45,
+      "at": 1792815647.285919,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "propose_plan",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"fingerprint\": \"ffbc23e2078acdeee39937f842f701b82a9a458a561128a6b1c0c606a1772531\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 46,
+      "at": 1792815647.2914815,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "propose",
+      "detail": "{\"arguments\": {\"driver\": \"D2\", \"recipient\": \"B\"}, \"result\": {\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"fingerprint\": \"ffbc23e2078acdeee39937f842f701b82a9a458a561128a6b1c0c606a1772531\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}, \"source\": \"synthetic fixture\"}"
+    },
+    {
+      "seq": 47,
+      "at": 1792815647.2989304,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "agent_completed",
+      "detail": "{\"elapsed_seconds\": 16.328, \"mode\": \"llm\"}"
+    },
+    {
+      "seq": 48,
+      "at": 1792815647.3086574,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 49,
+      "at": 1792815647.3122296,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "human_approval",
+      "detail": "{\"actor\": \"Repair verification dispatcher\", \"at\": 1792815647.3112075, \"fingerprint\": \"ffbc23e2078acdeee39937f842f701b82a9a458a561128a6b1c0c606a1772531\", \"version\": 3}"
+    },
+    {
+      "seq": 50,
+      "at": 1792815647.3182294,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "validate_constraints",
+      "detail": "{\"arrival\": 862, \"boxes\": 24, \"driver\": \"D2\", \"reasons\": [], \"recipient\": \"B\", \"valid\": true}"
+    },
+    {
+      "seq": 51,
+      "at": 1792815647.3212347,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "reserve_capacity",
+      "detail": "{\"hold\": \"25a0055cc7bc4c42ae93b117b07e60fb\", \"simulated_transport\": true, \"ttl_seconds\": 120}"
+    },
+    {
+      "seq": 52,
+      "at": 1792815647.3297172,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "simulated_driver_reply",
+      "detail": "{\"hold\": \"25a0055cc7bc4c42ae93b117b07e60fb\", \"response\": \"accept\"}"
+    },
+    {
+      "seq": 53,
+      "at": 1792815647.3377264,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "simulated_recipient_reply",
+      "detail": "{\"hold\": \"25a0055cc7bc4c42ae93b117b07e60fb\", \"response\": \"accept\"}"
+    },
+    {
+      "seq": 54,
+      "at": 1792815647.3377264,
+      "case_id": "RR-917518CA",
+      "version": 3,
+      "tool": "verify_booking",
+      "detail": "{\"both_accepted\": true, \"hold\": \"25a0055cc7bc4c42ae93b117b07e60fb\"}"
+    }
+  ]
+}

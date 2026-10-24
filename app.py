@@ -5,7 +5,9 @@ from pathlib import Path
 import streamlit as st
 from reroute.agent import investigate, completion, tool_schema
 from reroute.engine import Store, WorkflowError
-from reroute.config import api_settings, database_path, set_hosted_secrets, build_revision
+from reroute.config import api_settings, database_path, set_hosted_secrets
+from reroute import config as app_config
+from reroute import agent as agent_module
 from reroute.fixtures import SCENARIOS, fixture, hhmm
 
 st.set_page_config(page_title='ReRoute | The rescue desk',page_icon='🌿',layout='wide')
@@ -108,7 +110,9 @@ with st.sidebar:
             st.error('Provider response could not be read. Check the endpoint and model.')
     st.caption('Offline mode is a rule-based tool loop. LLM mode chooses tools; Python enforces every safety check.')
     with st.expander('Build and deployment'):
-        st.code(build_revision(),language=None)
+        revision=getattr(app_config,'build_revision',lambda:'unavailable — reboot the app to load the updated module')()
+        st.code(revision,language=None)
+        st.caption('LLM controller: state-aware tools' if hasattr(agent_module.Investigator,'available_tools') else 'Legacy LLM controller loaded — reboot after updating.')
         st.caption('Compare this checkout revision with the GitHub commit before the submission freeze.')
     st.divider()
     st.markdown('**AgentOps 2026 · 24 October**')
@@ -165,8 +169,14 @@ with ops:
         if finished:
             st.caption(f"Last investigation: {finished[-1]['mode']} · {finished[-1]['elapsed_seconds']:.2f} seconds · approval excluded")
         if c['status']=='ESCALATED':
-            reasons=[json.loads(e['detail']).get('reason') for e in reversed(case_events) if e['tool'] in ('agent_failed','escalate','release_and_escalate')]
-            st.warning(next((r for r in reasons if r), 'Investigation stopped. Review evidence and retry.'))
+            failed=[json.loads(e['detail']) for e in latest if e['tool']=='agent_failed']
+            if failed:
+                failure=failed[-1]
+                category=failure.get('category','investigation').replace('_',' ').title()
+                st.error(category+': '+failure.get('reason','Review the recorded error and retry.'))
+            else:
+                reasons=[json.loads(e['detail']).get('reason') for e in reversed(case_events) if e['tool'] in ('escalate','release_and_escalate')]
+                st.warning(next((r for r in reasons if r), 'Investigation stopped. Review evidence and retry.'))
             st.info('If this is a repeated demo, earlier bookings may consume capacity. Choose Start fresh demo for an isolated run.')
         with st.expander('Investigation decisions and evidence'):
             for e in latest:

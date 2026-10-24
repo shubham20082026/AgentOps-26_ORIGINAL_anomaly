@@ -51,3 +51,9 @@ Hold expiry is lazy: database reads/actions sweep expired reservations atomicall
 ## Responsible demo claims
 
 Recovered-box metrics represent confirmed sandbox allocations only. They do not assert delivery or actual avoided waste. No real personal data, outbound messages or live integrations are used. Model access and real provider behavior must be validated separately with the user's provider credentials. The approval UI is a local dispatcher control, not production access control.
+
+## LLM repair and request pacing — 24 October
+
+See LLM_REPAIR.md. The catalogue still contains six tools, but only actions valid for the current evidence are advertised. Tool preconditions are enforced again on execution. Independent inspections or validations may share a model response. Three consecutive policy rejections stop with structured feedback; model failures are not converted into successful no-route decisions.
+
+Gemini requests default to a 4.1-second minimum start interval per server process. REROUTE_MIN_REQUEST_INTERVAL can set 0–30 seconds to match the account's limits. This reduces bursts but does not override provider quotas or coordinate multiple server processes. Timing includes this pacing. No retry or deterministic fallback is hidden. Failure events distinguish quota/provider, network, protocol, tool-policy, changed-evidence, configuration and budget errors; raw provider payloads are excluded.

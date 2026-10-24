@@ -1,3 +1,18 @@
+# Repaired LLM path — 24 October 2026
+
+Full automated suite: **65 passed in 32.53 seconds**. Tests cover legal action availability, evidence-bound terminal tools, batched inspections and validations, specific rejection feedback, protocol failures before partial execution, stale case evidence, pacing, categorized UI errors and absence of silent deterministic fallback.
+
+Live repeated sample: 30/30 LLM attempts correct, 0 failures, 0 rejected calls. Median 22.1015 seconds; range 14.125–36.516; 25/30 correct under 30 seconds. Baseline: 30/30 correct, median 0.18 seconds. All five deterministic stress checks passed. Timing includes Gemini's 4.1-second per-process request interval, and excludes human approval/confirmation. This does not establish superiority or a universal latency guarantee.
+
+Raw per-run traces, model responses and failure classifications are in evaluation_report.json. The pre-repair 1/30 report is retained under evaluation_history. The old 16.75-second and 51.281-second observations below are historical, not samples from the repaired distribution.
+
+The repair has been verified locally against a real provider. Deployment still requires pushing the complete changes and rebooting Streamlit Cloud; no claim is made that the hosted site already runs this repair.
+
+---
+
+# Cached-module startup fix — 23 October 2026
+
+Full suite: **55 passed in 10.83 seconds**. A regression test removes the optional build_revision helper from the already-loaded configuration module and verifies that the app still starts, ingests a case and produces a proposal. The revision display now degrades to a reboot message rather than blocking startup. Published config.py already contained the helper; rebooting Streamlit reloads cached modules. Push app.py and tests/test_ui.py together for the durable fix.
 # Submission evidence update — 23 October 2026
 
 Full suite: **54 passed in 33.55 seconds**. Two additional checks cover failure-aware latency summaries and safe checkout revision reporting. Historical 52-test results below remain valid for their earlier version.
@@ -103,3 +118,7 @@ The Streamlit server was started on localhost. The Happy path was manually drive
 
 The original proposal's goals of a sub-30-second sandbox proposal, rejecting five invalid fixture categories and zero duplicate bookings across ten replays were met in the deterministic local rehearsal. LLM latency and real-world benefits remain unverified.
 
+
+
+
+A separate live LLM recovery check also passed: D3 was proposed, its simulated driver declined, capacity was released, and the model proposed D2. Fresh human approval was required. Both parties then accepted and the case became CONFIRMED. The deterministic investigator was disabled during this check. See [llm_recovery_verification.json](llm_recovery_verification.json).

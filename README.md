@@ -19,42 +19,48 @@ messaging, authentication and split deliveries are outside the current scope.
 
 ### Status and evidence
 
-The complete sandbox workflow, fresh-demo controls, API connection check, evaluation lab, version-specific approval and both-party verification are implemented. The full suite now has **54 passing tests**, including two added submission checks. The working-app deck reports the earlier 52-test suite; its single-trial results are historical observations. Current validation is in [VERIFICATION.md](VERIFICATION.md).
+The complete sandbox workflow, fresh-demo controls, API connection check, evaluation lab, version-specific approval and both-party verification are implemented. The full suite now has **65 passing tests**, including LLM policy, batching, pacing and failure-display regressions. The working-app deck reports the earlier 52-test suite; its single-trial results are historical observations. Current validation is in [VERIFICATION.md](VERIFICATION.md).
 
 The app still uses synthetic travel, resources, handling evidence and replies. There is no live delivery integration, authentication, donation splitting or guaranteed durable cloud database. LLM reliability is limited by provider/model behavior: see the repeated results below. GitHub Actions runs the full suite without live credentials.
 
-## Repeated evaluation — 23 October 2026
+## Repaired LLM evaluation — 24 October 2026
 
-Five trials per mode across six scenarios: **60 attempts** using identical synthetic inputs and isolated databases. Trials ran serially without provider retry or deliberate quota pacing. Approval and confirmation time are excluded. Source, model, code hashes, every run and traces are in [evaluation_report.json](evaluation_report.json).
+The model now receives tools whose prerequisites are met, exact resource IDs and actionable policy feedback. Independent checks may share a model response. **The LLM chooses investigation steps and proposals; the deterministic investigator is never used as its fallback.** See [LLM_REPAIR.md](LLM_REPAIR.md).
 
-| Scenario | Mode | Correct | Failed | Median attempt (s) | Range (s) |
+Five trials per mode across six scenarios: **60 attempts** with identical synthetic inputs and isolated databases. Gemini request starts were paced at 4.1 seconds within one process; this wait is included in latency. No automatic retries or deterministic substitution were used. Human approval and confirmations are excluded. Raw traces, failures and code hashes are in [evaluation_report.json](evaluation_report.json).
+
+| Scenario | Mode | Correct | Failed | Median (s) | Range (s) |
 |---|---|---:|---:|---:|---:|
-| Happy path | deterministic | 5/5 | 0 | 0.078 | 0.062–0.078 |
-| Happy path | llm | 1/5 | 4 | 0.438 | 0.406–5.125 |
-| No capacity | deterministic | 5/5 | 0 | 0.063 | 0.062–0.093 |
-| No capacity | llm | 0/5 | 5 | 0.469 | 0.406–17.172 |
-| Late arrival | deterministic | 5/5 | 0 | 0.079 | 0.063–0.125 |
-| Late arrival | llm | 0/5 | 5 | 0.469 | 0.406–0.515 |
-| Missing handling | deterministic | 5/5 | 0 | 0.063 | 0.062–0.125 |
-| Missing handling | llm | 0/5 | 5 | 0.422 | 0.406–0.453 |
-| Closed recipient | deterministic | 5/5 | 0 | 0.063 | 0.062–0.094 |
-| Closed recipient | llm | 0/5 | 5 | 0.437 | 0.391–0.438 |
-| Driver unavailable | deterministic | 5/5 | 0 | 0.079 | 0.062–0.094 |
-| Driver unavailable | llm | 0/5 | 5 | 0.453 | 0.375–0.5 |
+| Happy path | deterministic | 5/5 | 0 | 0.188 | 0.062–0.391 |
+| Happy path | llm | 5/5 | 0 | 16.171 | 14.125–23.391 |
+| No capacity | deterministic | 5/5 | 0 | 0.188 | 0.063–0.203 |
+| No capacity | llm | 5/5 | 0 | 20.375 | 17.437–20.812 |
+| Late arrival | deterministic | 5/5 | 0 | 0.203 | 0.062–0.25 |
+| Late arrival | llm | 5/5 | 0 | 24.203 | 20.453–25.25 |
+| Missing handling | deterministic | 5/5 | 0 | 0.171 | 0.062–0.235 |
+| Missing handling | llm | 5/5 | 0 | 31.922 | 24.109–36.516 |
+| Closed recipient | deterministic | 5/5 | 0 | 0.063 | 0.063–0.219 |
+| Closed recipient | llm | 5/5 | 0 | 28.094 | 24.672–36.125 |
+| Driver unavailable | deterministic | 5/5 | 0 | 0.188 | 0.078–0.312 |
+| Driver unavailable | llm | 5/5 | 0 | 15.875 | 15.609–17.438 |
 
-**Baseline: 30/30 correct. LLM: 1/30 correct; 29 investigations failed.** The LLM's 0.438-second overall median includes rapid failures, so it is not a recovery-latency result. The only successful LLM attempt took 5.125 seconds; one success is not enough for a reliable successful-latency distribution. Failed runs are never counted as successful escalations or meeting the 30-second target.
+**LLM: 30/30 correct; baseline: 30/30 correct.** LLM median **22.1015 seconds**, range **14.125–36.516 seconds**; baseline median **0.18 seconds**. 25/30 LLM attempts were correct and under 30 seconds. There were 0 failed LLM investigations and 0 rejected tool calls in this sample.
 
-A separate follow-up diagnostic returned HTTP 429 (quota/rate limit) after rejected model calls. The original repeated evaluator did not save each failed run's cause, so we cannot attribute every failure to quota. The evaluator now captures safe failure details for future runs. Retry only after quota and model behavior are checked; offline mode remains the reliable demo baseline.
+These trials validate the repaired synthetic workflow, not production reliability or superiority. The rule-based baseline remains much faster. No consistent sub-30-second guarantee is claimed.
 
-The deck's historical **16.75-second** Happy-path result and earlier **51.281-second** escalation are separate observations, not members of this repeated sample. Different outcomes, evidence and provider conditions prevent interpreting their difference as a measured optimization gain. No consistent sub-30-second LLM target or superiority is claimed.
+The old **1/30** run is preserved in [evaluation_history/pre-repair-2026-10-23.json](evaluation_history/pre-repair-2026-10-23.json). It exposed invalid tool-call loops and provider failures, with incomplete per-trial diagnostics. Historical 16.75-second and 51.281-second runs used the earlier controller and are not included in this new distribution. The repair changes tool availability, feedback and request pacing; it does not simply relabel old failures as successes.
 
-To reproduce locally (uses provider quota when enabled):
+To reproduce locally (uses provider quota):
 
 ```powershell
 .\.venv\Scripts\python.exe evaluate.py --repeats 5 --include-llm --output evaluation_report.json
 ```
 
-Omit `--include-llm` for the offline baseline. Reports checkpoint after each scenario/trial; comparison of live models requires working credentials and available quota.
+Omit `--include-llm` for the baseline. Provider quotas, load and model access still apply.
+
+
+
+A separate live LLM recovery check also passed: D3 was proposed, its simulated driver declined, capacity was released, and the model proposed D2. Fresh human approval was required. Both parties then accepted and the case became CONFIRMED. The deterministic investigator was disabled during this check. See [llm_recovery_verification.json](llm_recovery_verification.json).
 
 ## Business value
 
@@ -184,3 +190,4 @@ Fixture times are frozen at 14:00; they are not today's current time. Reservatio
 This is a local single-dispatcher sandbox. Dispatcher names are attribution, not authenticated identity. SQLite serializes writes; there is no distributed booking service. Handling flags stand in for verified real-world food-safety evidence. Travel times do not model traffic or loading. There is no splitting, live ingestion webhook, operational delivery-completion release, user authentication, cancellation of confirmed allocations or real messaging. These need production design and partner testing.
 
 Built using the submitted `ReRoute[by ORIGINAL_anomaly]_final.pptx` 
+

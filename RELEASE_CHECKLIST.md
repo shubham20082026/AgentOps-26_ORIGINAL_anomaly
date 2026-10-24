@@ -1,3 +1,13 @@
+# LLM repair release update — 24 October 2026
+
+The LLM path is repaired and locally validated: **65 tests passed**, live LLM **30/30 correct**, no silent fallback; median **22.1015 seconds**, range **14.125–36.516**. The pre-repair 1/30 dataset remains archived. See LLM_REPAIR.md and evaluation_report.json.
+
+Before the 18:00 IST freeze: push **all** changed Python modules, tests and docs together; reboot Streamlit Cloud; compare the displayed checkout hash with the pushed commit; select LLM mode; Start fresh demo; rehearse approval, reservation and both replies. Local SQLite and Windows credentials are preserved. Cloud durability and authenticated roles remain outside scope.
+
+Historical release notes follow and do not describe the new deployment state.
+
+---
+
 # Submission release checklist
 
 Freeze: **24 October 2026, 18:00 IST** (confirmed by the user). This checklist is a factual record, not a claim that every release action is complete.

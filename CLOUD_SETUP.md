@@ -29,3 +29,9 @@ Repeat all six scenarios before claiming an advantage. API failures count as fai
 SQLite persists on the current filesystem. Cloud rebuilds can replace local files. Guaranteed operational persistence requires external storage. Fresh demos preserve earlier files but are not authenticated private storage.
 
 Official instructions: https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app/app-settings
+
+## Deploying the LLM repair
+
+Push the complete repair, including reroute/agent.py, reroute/config.py, evaluator files and tests, then reboot Streamlit Cloud to reload cached modules. Select LLM mode and Start fresh demo for rehearsal. The model still chooses checks and a valid proposal; offline mode is never substituted silently.
+
+Gemini requests default to a 4.1-second minimum interval within one server process. Optional Secrets setting: REROUTE_MIN_REQUEST_INTERVAL = "4.1". Match this to the account's provider limits. Pacing does not bypass daily quotas, and lowering it may trigger 429 responses. See LLM_REPAIR.md for error categories and verification.
